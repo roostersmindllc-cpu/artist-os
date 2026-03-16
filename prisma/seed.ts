@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../src/generated/prisma";
+import { PrismaClient } from "@prisma/client";;
 import { addDays, subDays } from "date-fns";
 
 import { hashPassword } from "../src/lib/password";
