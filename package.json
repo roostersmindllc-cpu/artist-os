@@ -3,20 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "format": "prettier --check .",
-    "format:write": "prettier --write .",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:migrate:deploy": "prisma migrate deploy",
-    "db:migrate:status": "prisma migrate status",
-    "db:seed": "prisma db seed",
-    "db:studio": "prisma studio"
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint .",
+  "format": "prettier --check .",
+  "format:write": "prettier --write .",
+  "test": "vitest run",
+  "test:watch": "vitest",
+  "db:generate": "prisma generate",
+  "db:migrate": "prisma migrate dev",
+  "db:migrate:deploy": "prisma migrate deploy",
+  "db:migrate:status": "prisma migrate status",
+  "db:seed": "prisma db seed",
+  "db:studio": "prisma studio",
+  "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.5.0",
@@ -58,4 +59,5 @@
     "tsx": "4.21.0",
     "typescript": "5.9.3",
     "vitest": "4.1.0"
-  }
+}
+}
