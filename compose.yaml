@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: artist-os-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: artistos
+      POSTGRES_USER: artistos
+      POSTGRES_PASSWORD: artistos
+    ports:
+      - "5432:5432"
+    volumes:
+      - artist-os-postgres:/var/lib/postgresql/data
+
+volumes:
+  artist-os-postgres:
