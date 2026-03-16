@@ -1,5 +1,5 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../src/generated/prisma";
 import { addDays, subDays } from "date-fns";
 
 import { hashPassword } from "../src/lib/password";
