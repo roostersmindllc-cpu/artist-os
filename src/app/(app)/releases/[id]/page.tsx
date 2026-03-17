@@ -25,7 +25,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import {
   campaignStatusLabels,
   contentPlatformLabels,
@@ -56,7 +56,7 @@ function isMissingReleaseError(error: unknown) {
 export default async function ReleaseDetailPage({
   params
 }: ReleaseDetailPageProps) {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const { id } = await params;
 
   let release: Awaited<ReturnType<typeof getReleaseDetailForUser>>;

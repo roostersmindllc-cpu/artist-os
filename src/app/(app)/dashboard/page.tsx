@@ -8,11 +8,11 @@ import { TasksDueTodayList } from "@/components/dashboard/tasks-due-today-list";
 import { TodayHeartbeat } from "@/components/dashboard/today-heartbeat";
 import { UpcomingContentList } from "@/components/dashboard/upcoming-content-list";
 import { PageContainer } from "@/components/shared/page-container";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import { getDashboardOverview } from "@/services/dashboard-service";
 
 export default async function DashboardPage() {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const overview = await getDashboardOverview(user.id);
 
   return (

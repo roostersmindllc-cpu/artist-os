@@ -11,7 +11,7 @@ import { StatCard } from "@/components/shared/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import { getFanEngagementVariant } from "@/lib/presentation";
 import { buildFanFormValues } from "@/lib/validations/fans";
 import { cn, formatRelativeTime } from "@/lib/utils";
@@ -28,7 +28,7 @@ function isMissingFanError(error: unknown) {
 }
 
 export default async function FanDetailPage({ params }: FanDetailPageProps) {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const { id } = await params;
 
   let fan: Awaited<ReturnType<typeof getFanDetailForUser>>;

@@ -17,7 +17,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { PageContainer } from "@/components/shared/page-container";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import { hasActiveFilters } from "@/lib/filter-utils";
 import {
   contentPlannerFiltersSchema,
@@ -36,7 +36,7 @@ type ContentPageProps = {
 };
 
 export default async function ContentPage({ searchParams }: ContentPageProps) {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const params = await searchParams;
   const parsedFilters = contentPlannerFiltersSchema.safeParse({
     view: typeof params.view === "string" ? params.view : "",

@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import { metricSourceLabels } from "@/lib/domain-config";
 import {
   analyticsFiltersSchema,
@@ -35,7 +35,7 @@ type AnalyticsPageProps = {
 };
 
 export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps) {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const params = await searchParams;
   const parsedFilters = analyticsFiltersSchema.safeParse({
     source: typeof params.source === "string" ? params.source : undefined,

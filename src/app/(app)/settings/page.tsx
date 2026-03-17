@@ -8,7 +8,7 @@ import { ProfileSettingsForm } from "@/components/settings/profile-settings-form
 import { PageContainer } from "@/components/shared/page-container";
 import { SectionHeader } from "@/components/shared/section-header";
 import { StatCard } from "@/components/shared/stat-card";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import {
   buildArtistProfileSettingsFormValues,
   type AccountSettingsFormValues
@@ -16,7 +16,7 @@ import {
 import { getSettingsOverviewForUser } from "@/services/settings-service";
 
 export default async function SettingsPage() {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const settings = await getSettingsOverviewForUser(user.id);
 
   const accountFormValues: AccountSettingsFormValues = {

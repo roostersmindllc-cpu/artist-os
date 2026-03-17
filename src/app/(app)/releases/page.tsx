@@ -7,7 +7,7 @@ import { DataTableCard } from "@/components/shared/data-table-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageContainer } from "@/components/shared/page-container";
 import { buttonVariants } from "@/components/ui/button";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import { hasActiveFilters } from "@/lib/filter-utils";
 import {
   normalizeReleaseListFilters,
@@ -23,7 +23,7 @@ type ReleasesPageProps = {
 export default async function ReleasesPage({
   searchParams
 }: ReleasesPageProps) {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const params = await searchParams;
   const parsedFilters = releaseListFiltersSchema.safeParse({
     status: typeof params.status === "string" ? params.status : "",

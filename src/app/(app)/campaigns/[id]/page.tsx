@@ -32,7 +32,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import {
   campaignStatusLabels,
   contentPlatformLabels,
@@ -63,7 +63,7 @@ function isMissingCampaignError(error: unknown) {
 export default async function CampaignDetailPage({
   params
 }: CampaignDetailPageProps) {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const { id } = await params;
 
   let campaign: Awaited<ReturnType<typeof getCampaignDetailForUser>>;

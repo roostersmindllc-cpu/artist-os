@@ -10,7 +10,7 @@ import { PageContainer } from "@/components/shared/page-container";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import {
   campaignStatusLabels,
   contentFormatLabels,
@@ -40,7 +40,7 @@ function isMissingContentError(error: unknown) {
 export default async function ContentDetailPage({
   params
 }: ContentDetailPageProps) {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const { id } = await params;
 
   let contentItem: Awaited<ReturnType<typeof getContentItemDetailForUser>>;

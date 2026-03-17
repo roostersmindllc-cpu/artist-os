@@ -5,12 +5,12 @@ import { CampaignForm } from "@/components/forms/campaign-form";
 import { PageContainer } from "@/components/shared/page-container";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import { cn } from "@/lib/utils";
 import { getCampaignReleaseOptionsForUser } from "@/services/campaigns-service";
 
 export default async function NewCampaignPage() {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const releaseOptions = await getCampaignReleaseOptionsForUser(user.id);
 
   return (

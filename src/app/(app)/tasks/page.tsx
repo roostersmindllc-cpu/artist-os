@@ -6,12 +6,12 @@ import { DataTableCard } from "@/components/shared/data-table-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageContainer } from "@/components/shared/page-container";
 import { buttonVariants } from "@/components/ui/button";
-import { requireUser } from "@/lib/auth";
+import { requireOnboardedUser } from "@/lib/route-access";
 import { cn } from "@/lib/utils";
 import { getTasksForUser } from "@/services/tasks-service";
 
 export default async function TasksPage() {
-  const user = await requireUser();
+  const { user } = await requireOnboardedUser();
   const tasks = await getTasksForUser(user.id);
 
   return (
