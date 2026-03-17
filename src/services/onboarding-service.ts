@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 import { slugify } from "@/lib/slug";
 import { UserFacingError } from "@/lib/errors";
 import {
@@ -7,6 +9,32 @@ import {
   type OnboardingFormValues
 } from "@/lib/validations/onboarding";
 import { buildOnboardingWorkspacePlan } from "@/services/onboarding-helpers";
+
+function isMissingArtistProfileFieldError(error: unknown) {
+  if (!(error instanceof Prisma.PrismaClientKnownRequestError) || error.code !== "P2022") {
+    return false;
+  }
+
+  const missingColumn = String(error.meta?.column ?? "");
+
+  return ["audienceSize", "socialPlatforms", "platformsUsed"].some((field) =>
+    missingColumn.includes(field)
+  );
+}
+
+function stripExtendedArtistProfileFields<
+  T extends {
+    audienceSize?: number | null;
+    socialPlatforms?: string[];
+    platformsUsed?: string[];
+  }
+>(data: T) {
+  const legacyData = { ...data };
+  delete legacyData.audienceSize;
+  delete legacyData.socialPlatforms;
+  delete legacyData.platformsUsed;
+  return legacyData;
+}
 
 async function generateUniqueReleaseSlug(
   tx: {
@@ -78,12 +106,27 @@ export async function completeOnboardingForUser(
       throw new UserFacingError("Onboarding is already complete for this account.");
     }
 
-    const artistProfile = await tx.artistProfile.create({
-      data: {
-        userId,
-        ...plan.profile
+    let artistProfile;
+
+    try {
+      artistProfile = await tx.artistProfile.create({
+        data: {
+          userId,
+          ...plan.profile
+        }
+      });
+    } catch (error) {
+      if (!isMissingArtistProfileFieldError(error)) {
+        throw error;
       }
-    });
+
+      artistProfile = await tx.artistProfile.create({
+        data: {
+          userId,
+          ...stripExtendedArtistProfileFields(plan.profile)
+        }
+      });
+    }
     const releaseSlug = await generateUniqueReleaseSlug(
       tx,
       artistProfile.id,

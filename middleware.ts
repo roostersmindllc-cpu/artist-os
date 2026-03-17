@@ -13,8 +13,6 @@ const protectedPrefixes = [
   "/onboarding"
 ];
 
-const authOnlyPrefixes = ["/sign-in", "/sign-up"];
-
 function matchesRoutePrefix(pathname: string, prefixes: string[]) {
   return prefixes.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
@@ -26,10 +24,6 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET
   });
-
-  if (matchesRoutePrefix(request.nextUrl.pathname, authOnlyPrefixes) && token) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
 
   if (matchesRoutePrefix(request.nextUrl.pathname, protectedPrefixes) && !token) {
     const signInUrl = new URL("/sign-in", request.url);
@@ -54,8 +48,6 @@ export const config = {
     "/tasks/:path*",
     "/analytics/:path*",
     "/settings/:path*",
-    "/onboarding/:path*",
-    "/sign-in",
-    "/sign-up"
+    "/onboarding/:path*"
   ]
 };
