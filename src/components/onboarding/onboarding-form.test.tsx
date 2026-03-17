@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const { pushMock, refreshMock, completeOnboardingActionMock } = vi.hoisted(() => ({
@@ -28,46 +28,53 @@ describe("OnboardingForm", () => {
   it("shows inline validation errors for invalid input", async () => {
     render(<OnboardingForm />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Complete onboarding" }));
+    fireEvent.click(screen.getByRole("button", { name: "Create my workspace" }));
 
     expect(await screen.findByText("Artist name is required.")).toBeInTheDocument();
-    expect(await screen.findByText("Genre is required.")).toBeInTheDocument();
-    expect(await screen.findByText("Short bio is required.")).toBeInTheDocument();
-    expect(await screen.findByText("Primary goal is required.")).toBeInTheDocument();
+    expect(await screen.findByText("Choose at least one social platform.")).toBeInTheDocument();
+    expect(await screen.findByText("Next release date is required.")).toBeInTheDocument();
+    expect(await screen.findByText("Audience size is required.")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Choose at least one platform you use today.")
+    ).toBeInTheDocument();
     expect(completeOnboardingActionMock).not.toHaveBeenCalled();
   });
 
   it("submits valid onboarding data and redirects to the dashboard", async () => {
     completeOnboardingActionMock.mockResolvedValueOnce({
       success: true,
-      message: "Artist profile created."
+      message: "Workspace created with a seeded release plan."
     });
 
     render(<OnboardingForm defaultArtistName="Demo Artist" />);
 
-    fireEvent.change(screen.getByLabelText("Genre"), {
-      target: { value: "Alternative Pop" }
+    const socialPlatformsGroup = screen.getByRole("group", {
+      name: "Social platforms"
     });
-    fireEvent.change(screen.getByLabelText("Short bio"), {
-      target: {
-        value:
-          "Independent artist blending nocturnal synth textures with direct fan-first release planning."
-      }
-    });
-    fireEvent.change(screen.getByLabelText("Primary goal for the next 90 days"), {
-      target: {
-        value: "Launch the next single and grow direct fan signups."
-      }
+    const platformsUsedGroup = screen.getByRole("group", {
+      name: "Platforms used"
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "Complete onboarding" }));
+    fireEvent.click(within(socialPlatformsGroup).getByRole("button", { name: "Instagram" }));
+    fireEvent.click(within(socialPlatformsGroup).getByRole("button", { name: "TikTok" }));
+    fireEvent.change(screen.getByLabelText("Next release date"), {
+      target: { value: "2099-04-20" }
+    });
+    fireEvent.change(screen.getByLabelText("Audience size"), {
+      target: { value: "5000" }
+    });
+    fireEvent.click(within(platformsUsedGroup).getByRole("button", { name: "Spotify" }));
+    fireEvent.click(within(platformsUsedGroup).getByRole("button", { name: "Email list" }));
+
+    fireEvent.click(screen.getByRole("button", { name: "Create my workspace" }));
 
     await waitFor(() => {
       expect(completeOnboardingActionMock).toHaveBeenCalledWith({
         artistName: "Demo Artist",
-        genre: "Alternative Pop",
-        bio: "Independent artist blending nocturnal synth textures with direct fan-first release planning.",
-        primaryGoal: "Launch the next single and grow direct fan signups."
+        socialPlatforms: ["INSTAGRAM", "TIKTOK"],
+        nextReleaseDate: "2099-04-20",
+        audienceSize: "5000",
+        platformsUsed: ["SPOTIFY", "EMAIL"]
       });
       expect(pushMock).toHaveBeenCalledWith("/dashboard");
       expect(refreshMock).toHaveBeenCalled();

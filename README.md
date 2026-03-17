@@ -37,8 +37,31 @@ cp .env.example .env
 Required in all environments:
 
 - `DATABASE_URL`: PostgreSQL connection string
+- `DIRECT_URL`: direct PostgreSQL connection for Prisma migrations when `DATABASE_URL` uses a pooler
 - `NEXTAUTH_URL`: full public URL for the current environment
 - `NEXTAUTH_SECRET`: long random secret for session signing
+
+Optional production observability:
+
+- `NEXT_PUBLIC_SENTRY_DSN`
+- `NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE`
+- `SENTRY_AUTH_TOKEN`
+- `SENTRY_ORG`
+- `SENTRY_PROJECT`
+- `NEXT_PUBLIC_POSTHOG_KEY`
+- `NEXT_PUBLIC_POSTHOG_HOST`
+
+Optional runtime tuning:
+
+- `PRISMA_POOL_MAX`
+- `PRISMA_POOL_IDLE_TIMEOUT_MS`
+- `PRISMA_POOL_CONNECTION_TIMEOUT_MS`
+- `AUTH_SIGN_IN_RATE_LIMIT_MAX`
+- `AUTH_SIGN_IN_RATE_LIMIT_WINDOW_MS`
+- `AUTH_SIGN_UP_RATE_LIMIT_MAX`
+- `AUTH_SIGN_UP_RATE_LIMIT_WINDOW_MS`
+- `ANALYTICS_IMPORT_RATE_LIMIT_MAX`
+- `ANALYTICS_IMPORT_RATE_LIMIT_WINDOW_MS`
 
 Local-only seed defaults:
 
@@ -48,9 +71,11 @@ Local-only seed defaults:
 Production guidance:
 
 - Use a managed PostgreSQL URL with SSL enabled.
+- Point `DATABASE_URL` at the provider's pooled connection string and `DIRECT_URL` at the direct connection string for migrations.
 - Set `NEXTAUTH_URL` to the production domain, for example `https://app.example.com`.
 - Generate `NEXTAUTH_SECRET` with a strong random value and store it only in your hosting provider's secret manager.
 - Do not keep demo seed credentials enabled for production operators unless you intentionally want that access path.
+- Set `NEXT_PUBLIC_SENTRY_DSN` and `NEXT_PUBLIC_POSTHOG_KEY` before public launch so monitoring starts on day one.
 
 ## Local Setup
 
@@ -187,6 +212,7 @@ Reasonable alternative:
 ### Prisma In Production
 
 - Commit the `prisma/migrations` directory to source control.
+- Use the pooled `DATABASE_URL` at runtime and the direct `DIRECT_URL` for migration commands.
 - Apply schema changes in deployment with:
 
 ```bash
@@ -202,7 +228,13 @@ npm run db:migrate:deploy
 - Set a strong `NEXTAUTH_SECRET`.
 - Use HTTPS in production.
 - Rotate the secret deliberately, because changing it invalidates existing sessions.
-- Keep credentials auth rate-limited at the hosting edge or proxy layer if traffic grows beyond MVP scale.
+- Credentials sign-in and sign-up now include application-level rate limiting, and protected routes are enforced in middleware before layout rendering.
+
+### Observability And Product Analytics
+
+- Sentry is wired through Next.js instrumentation, route handlers, and app error boundaries.
+- PostHog is wired for client pageviews, user identification, and key product events such as account creation, onboarding completion, release creation, fan creation, content creation, and analytics imports.
+- If you want source map uploads in production, set `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` in the deployment environment.
 
 ### App Branding And Fallback UX
 
@@ -251,7 +283,9 @@ npm run db:studio
 ## Simple Deployment Checklist
 
 1. Create a managed PostgreSQL database.
-2. Set `DATABASE_URL`, `NEXTAUTH_URL`, and `NEXTAUTH_SECRET` in the hosting provider.
+2. Set `DATABASE_URL`, `DIRECT_URL`, `NEXTAUTH_URL`, and `NEXTAUTH_SECRET` in the hosting provider.
+3. Add `NEXT_PUBLIC_SENTRY_DSN` and `NEXT_PUBLIC_POSTHOG_KEY` before inviting external users.
+4. Optionally add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` for source map uploads.
 3. Run `npm install`.
 4. Run `npm run db:generate`.
 5. Run `npm run db:migrate:deploy`.
@@ -260,5 +294,5 @@ npm run db:studio
 8. Run `npm run test`.
 9. Run `npm run build`.
 10. Deploy the app.
-11. Sign in and verify `/dashboard`, `/releases`, `/campaigns`, `/content`, `/fans`, `/tasks`, `/analytics`, and `/settings`.
-12. Replace placeholder icons and branding when final assets are ready.
+11. Verify Sentry receives a test error and PostHog receives pageviews in the production environment.
+12. Sign in and verify `/dashboard`, `/releases`, `/campaigns`, `/content`, `/fans`, `/tasks`, `/analytics`, and `/settings`.

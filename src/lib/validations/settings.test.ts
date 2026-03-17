@@ -21,12 +21,15 @@ describe("settings validation", () => {
     });
   });
 
-  it("requires a valid artist profile goal", () => {
+  it("requires at least one social platform in artist profile settings", () => {
     const result = artistProfileSettingsFormSchema.safeParse({
       artistName: "North Avenue",
-      genre: "Indie Pop",
-      bio: "Tight melodies and cinematic hooks for late-night drives.",
-      primaryGoal: "short"
+      genre: "Indie pop",
+      bio: "An independent pop project building a bigger live audience.",
+      primaryGoal: "Launch the next single with a clearer weekly content system.",
+      audienceSize: "5000",
+      socialPlatforms: [],
+      platformsUsed: ["SPOTIFY"]
     });
 
     expect(result.success).toBe(false);

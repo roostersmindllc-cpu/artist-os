@@ -13,6 +13,7 @@ import {
   normalizeAnalyticsInput,
   type AnalyticsFormValues
 } from "@/lib/validations/analytics";
+import { UserFacingError } from "@/lib/errors";
 import {
   buildAnalyticsChartData,
   buildAnalyticsSummary,
@@ -122,11 +123,11 @@ export async function importMetricSnapshotsForUser(
       .map((error) => `Row ${error.rowNumber}: ${error.message}`)
       .join(" ");
 
-    throw new Error(`CSV import failed. ${firstErrors}`);
+    throw new UserFacingError(`CSV import failed. ${firstErrors}`);
   }
 
   if (preview.validRows.length === 0) {
-    throw new Error("CSV import failed. No valid metric rows were found.");
+    throw new UserFacingError("CSV import failed. No valid metric rows were found.");
   }
 
   const artistProfile = await requireArtistProfileForUser(userId);

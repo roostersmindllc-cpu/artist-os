@@ -11,7 +11,7 @@ export default function NewReleasePage() {
   return (
     <PageContainer
       title="New release"
-      description="Start a release record with the metadata you need today, then layer in tracks, campaigns, and content once the plan sharpens."
+      description="Start a release record, then let the first automation generate a rollout starter system around it."
       eyebrow="Catalog setup"
       actions={
         <Link
@@ -26,16 +26,18 @@ export default function NewReleasePage() {
         <ReleaseForm />
         <Card>
           <CardHeader>
-            <CardTitle>What to capture first</CardTitle>
+            <CardTitle>Starter automation</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm leading-6 text-muted-foreground">
             <p>
-              Set the title, type, status, and target date first. That gives the rest of the
-              workspace a clean anchor for campaigns, content planning, and task linking.
+              When you create a release, Artist OS now auto-generates a linked campaign,
+              three draft content items, and starter tasks for playlist outreach, fan
+              email, and TikTok planning.
             </p>
             <p>
-              Distributor, cover art URL, and description can stay lightweight for MVP usage,
-              but filling them now makes the dashboard and detail view more useful immediately.
+              If you set a release date, the system uses that to shape the rollout runway.
+              If you leave the date blank, it builds a provisional 21-day plan that you can
+              refine later.
             </p>
           </CardContent>
         </Card>

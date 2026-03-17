@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import type { ActionResult } from "@/lib/action-result";
 import { requireUser } from "@/lib/auth";
+import { captureServerAnalyticsEvent } from "@/lib/posthog-server";
 import type { ReleaseFormValues } from "@/lib/validations/releases";
 import type { TrackFormValues } from "@/lib/validations/tracks";
 import {
@@ -20,22 +21,47 @@ import { getErrorMessage } from "@/services/service-utils";
 function revalidateReleasePaths(releaseId: string) {
   revalidatePath("/dashboard");
   revalidatePath("/releases");
+  revalidatePath("/campaigns");
+  revalidatePath("/campaigns/new");
+  revalidatePath("/content");
+  revalidatePath("/tasks");
   revalidatePath(getReleaseRoute(releaseId));
 }
 
 export async function createReleaseAction(
   values: ReleaseFormValues
-): Promise<ActionResult<{ releaseId: string }>> {
+): Promise<
+  ActionResult<{
+    releaseId: string;
+    automationSummary: Awaited<ReturnType<typeof createReleaseForUser>>["automationSummary"];
+  }>
+> {
   try {
     const user = await requireUser();
     const release = await createReleaseForUser(user.id, values);
     revalidateReleasePaths(release.id);
+    await captureServerAnalyticsEvent({
+      distinctId: user.id,
+      event: "release created",
+      properties: {
+        releaseId: release.id,
+        hasReleaseDate: Boolean(values.releaseDate),
+        automationCampaignCount: release.automationSummary.campaignCount,
+        automationContentItemCount: release.automationSummary.contentItemCount,
+        automationTaskCount: release.automationSummary.taskCount
+      }
+    });
 
     return {
       success: true,
-      message: "Release created.",
+      message: `Release created. Generated ${release.automationSummary.campaignCount} campaign, ${release.automationSummary.contentItemCount} content items, and ${release.automationSummary.taskCount} tasks${
+        release.automationSummary.usesProvisionalDate
+          ? " using a provisional 21-day runway because no release date was set."
+          : "."
+      }`,
       data: {
-        releaseId: release.id
+        releaseId: release.id,
+        automationSummary: release.automationSummary
       }
     };
   } catch (error) {

@@ -47,11 +47,15 @@ const baseDefaultValues: AnalyticsFormValues = {
 type AnalyticsFormProps = {
   defaultSource?: MetricSourceValue;
   defaultMetricName?: MetricNameValue;
+  variant?: "card" | "plain";
+  onSuccess?: () => void;
 };
 
 export function AnalyticsForm({
   defaultSource = "SPOTIFY",
-  defaultMetricName = "STREAMS"
+  defaultMetricName = "STREAMS",
+  variant = "card",
+  onSuccess
 }: AnalyticsFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -88,100 +92,103 @@ export function AnalyticsForm({
 
       toast.success(result.message);
       form.reset(initialValues);
+      onSuccess?.();
       router.refresh();
     });
   });
+
+  const formContent = (
+    <form className="space-y-4" onSubmit={onSubmit}>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="metric-recorded-at">Recorded date</Label>
+          <Input
+            id="metric-recorded-at"
+            type="date"
+            {...form.register("recordedAt")}
+          />
+          <FieldHint>
+            Use the date the platform snapshot was actually recorded.
+          </FieldHint>
+          <FieldError message={form.formState.errors.recordedAt?.message} />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="metric-source">Source</Label>
+          <Select id="metric-source" {...form.register("source")}>
+            {metricSourceValues.map((value) => (
+              <option key={value} value={value}>
+                {metricSourceLabels[value]}
+              </option>
+            ))}
+          </Select>
+          <FieldHint>
+            Pick the platform or source where this metric was observed.
+          </FieldHint>
+          <FieldError message={form.formState.errors.source?.message} />
+        </div>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="metric-name">Metric name</Label>
+          <Select id="metric-name" {...form.register("metricName")}>
+            {metricNameValues.map((value) => (
+              <option key={value} value={value}>
+                {getMetricDisplayLabel(watchedSource, value)}
+              </option>
+            ))}
+          </Select>
+          <FieldHint>
+            The metric label adapts so common platform rows stay readable.
+          </FieldHint>
+          <FieldError message={form.formState.errors.metricName?.message} />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="metric-value">Metric value</Label>
+          <Input
+            id="metric-value"
+            type="number"
+            min={0}
+            step="0.1"
+            {...form.register("metricValue", { valueAsNumber: true })}
+          />
+          <FieldHint>
+            Use the raw platform number with no commas or symbols.
+          </FieldHint>
+          <FieldError message={form.formState.errors.metricValue?.message} />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="metric-metadata">Metadata (JSON optional)</Label>
+        <Textarea
+          id="metric-metadata"
+          rows={4}
+          placeholder='{"note":"weekly check-in"}'
+          {...form.register("metadata")}
+        />
+        <FieldHint>
+          Optional JSON for import notes, source details, or operator context.
+        </FieldHint>
+        <FieldError message={form.formState.errors.metadata?.message} />
+      </div>
+      <Button className="w-full" type="submit" disabled={isPending}>
+        {isPending ? "Saving metric..." : "Add metric snapshot"}
+      </Button>
+    </form>
+  );
+
+  if (variant === "plain") {
+    return <div className="p-5 sm:p-6">{formContent}</div>;
+  }
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Add metric snapshot</CardTitle>
         <CardDescription>
-          Record one metric row at a time so imports and manual entry share the
-          same structure.
+          Record one metric row at a time so imports and manual entry share the same structure.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form className="space-y-4" onSubmit={onSubmit}>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="metric-recorded-at">Recorded date</Label>
-              <Input
-                id="metric-recorded-at"
-                type="date"
-                {...form.register("recordedAt")}
-              />
-              <FieldHint>
-                Use the date the platform snapshot was actually recorded.
-              </FieldHint>
-              <FieldError message={form.formState.errors.recordedAt?.message} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="metric-source">Source</Label>
-              <Select id="metric-source" {...form.register("source")}>
-                {metricSourceValues.map((value) => (
-                  <option key={value} value={value}>
-                    {metricSourceLabels[value]}
-                  </option>
-                ))}
-              </Select>
-              <FieldHint>
-                Pick the platform or source where this metric was observed.
-              </FieldHint>
-              <FieldError message={form.formState.errors.source?.message} />
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="metric-name">Metric name</Label>
-              <Select id="metric-name" {...form.register("metricName")}>
-                {metricNameValues.map((value) => (
-                  <option key={value} value={value}>
-                    {getMetricDisplayLabel(watchedSource, value)}
-                  </option>
-                ))}
-              </Select>
-              <FieldHint>
-                The metric label adapts so common platform rows stay readable.
-              </FieldHint>
-              <FieldError message={form.formState.errors.metricName?.message} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="metric-value">Metric value</Label>
-              <Input
-                id="metric-value"
-                type="number"
-                min={0}
-                step="0.1"
-                {...form.register("metricValue", { valueAsNumber: true })}
-              />
-              <FieldHint>
-                Use the raw platform number with no commas or symbols.
-              </FieldHint>
-              <FieldError
-                message={form.formState.errors.metricValue?.message}
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="metric-metadata">Metadata (JSON optional)</Label>
-            <Textarea
-              id="metric-metadata"
-              rows={4}
-              placeholder='{"note":"weekly check-in"}'
-              {...form.register("metadata")}
-            />
-            <FieldHint>
-              Optional JSON for import notes, source details, or operator
-              context.
-            </FieldHint>
-            <FieldError message={form.formState.errors.metadata?.message} />
-          </div>
-          <Button className="w-full" type="submit" disabled={isPending}>
-            {isPending ? "Saving metric..." : "Add metric snapshot"}
-          </Button>
-        </form>
-      </CardContent>
+      <CardContent>{formContent}</CardContent>
     </Card>
   );
 }

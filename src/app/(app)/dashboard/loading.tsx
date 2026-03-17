@@ -1,5 +1,5 @@
-import { AppPageSkeleton } from "@/components/shared/loading-skeletons";
+import { DashboardPageSkeleton } from "@/components/shared/loading-skeletons";
 
 export default function DashboardLoading() {
-  return <AppPageSkeleton />;
+  return <DashboardPageSkeleton />;
 }

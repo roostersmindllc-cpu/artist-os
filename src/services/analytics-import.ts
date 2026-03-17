@@ -91,11 +91,11 @@ export const analyticsCsvTemplateExample = [
 ].join("\n");
 
 const sourceAliases: Record<MetricSourceValue, string[]> = {
-  SPOTIFY: ["spotify"],
+  SPOTIFY: ["spotify", "spotify for artists"],
   APPLE_MUSIC: ["applemusic", "apple music"],
-  YOUTUBE: ["youtube", "yt"],
+  YOUTUBE: ["youtube", "youtube analytics", "youtube studio", "yt"],
   INSTAGRAM: ["instagram", "ig"],
-  TIKTOK: ["tiktok", "tik tok"],
+  TIKTOK: ["tiktok", "tik tok", "tiktok analytics"],
   MAILING_LIST: ["email", "mailing list", "newsletter", "email list", "mailchimp"],
   MANUAL: ["manual"]
 };

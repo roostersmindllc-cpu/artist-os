@@ -96,8 +96,9 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
       <CardHeader>
         <CardTitle>CSV import</CardTitle>
         <CardDescription>
-          Upload a metric snapshot CSV, confirm the column mapping, preview normalized rows,
-          and import only when validation is clean.
+          Upload CSV exports from Spotify for Artists, YouTube, or TikTok, confirm
+          the column mapping, preview normalized rows, and import only when validation
+          is clean. Imported rows automatically refresh the charts.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
@@ -235,7 +236,8 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
           </>
         ) : (
           <div className="rounded-2xl border border-dashed border-border/70 bg-background/35 p-5 text-sm leading-6 text-muted-foreground">
-            Upload a CSV to unlock mapping, preview, and import.
+            Upload a CSV export to unlock mapping, preview, import, and automatic chart
+            updates.
           </div>
         )}
 

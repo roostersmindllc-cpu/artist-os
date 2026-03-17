@@ -1,7 +1,21 @@
 import { z } from "zod";
 
-import { metricSourceValues } from "@/lib/domain-config";
+import {
+  metricSourceValues,
+  onboardingPlatformValues,
+  socialPlatformValues
+} from "@/lib/domain-config";
 import { emptyToNull, optionalUrl } from "@/lib/validations/shared";
+
+const audienceSizeInput = z
+  .string()
+  .trim()
+  .min(1, "Audience size is required.")
+  .refine((value) => /^\d+$/.test(value), "Audience size must be a whole number.")
+  .refine(
+    (value) => Number(value) <= 100000000,
+    "Audience size must be 100000000 or fewer."
+  );
 
 export const contentCalendarViewValues = ["MONTH", "WEEK", "LIST"] as const;
 export const weekStartsOnValues = ["SUNDAY", "MONDAY"] as const;
@@ -46,7 +60,14 @@ export const artistProfileSettingsFormSchema = z.object({
     .string()
     .trim()
     .min(10, "Primary goal is required.")
-    .max(160, "Primary goal must be 160 characters or fewer.")
+    .max(160, "Primary goal must be 160 characters or fewer."),
+  audienceSize: audienceSizeInput,
+  socialPlatforms: z
+    .array(z.enum(socialPlatformValues))
+    .min(1, "Choose at least one social platform."),
+  platformsUsed: z
+    .array(z.enum(onboardingPlatformValues))
+    .min(1, "Choose at least one platform you use today.")
 });
 
 export type ArtistProfileSettingsFormValues = z.infer<
@@ -60,7 +81,10 @@ export function normalizeArtistProfileSettingsInput(
     artistName: values.artistName,
     genre: values.genre,
     bio: values.bio,
-    goals: [values.primaryGoal]
+    goals: [values.primaryGoal],
+    audienceSize: Number(values.audienceSize),
+    socialPlatforms: values.socialPlatforms,
+    platformsUsed: values.platformsUsed
   };
 }
 
@@ -69,12 +93,22 @@ export function buildArtistProfileSettingsFormValues(values: {
   genre: string | null;
   bio: string | null;
   goals: string[];
+  audienceSize: number | null;
+  socialPlatforms: string[];
+  platformsUsed: string[];
 }): ArtistProfileSettingsFormValues {
   return {
     artistName: values.artistName,
     genre: values.genre ?? "",
     bio: values.bio ?? "",
-    primaryGoal: values.goals[0] ?? ""
+    primaryGoal: values.goals[0] ?? "",
+    audienceSize: values.audienceSize !== null ? String(values.audienceSize) : "",
+    socialPlatforms: values.socialPlatforms.filter((value): value is (typeof socialPlatformValues)[number] =>
+      (socialPlatformValues as readonly string[]).includes(value)
+    ),
+    platformsUsed: values.platformsUsed.filter((value): value is (typeof onboardingPlatformValues)[number] =>
+      (onboardingPlatformValues as readonly string[]).includes(value)
+    )
   };
 }
 

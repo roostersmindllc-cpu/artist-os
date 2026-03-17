@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { FieldError } from "@/components/shared/field-error";
@@ -21,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { signInSchema, type SignInFormValues } from "@/lib/validations/auth";
 
 export function SignInForm() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [formError, setFormError] = useState<string | null>(null);
 
   const form = useForm<SignInFormValues>({
@@ -37,16 +37,20 @@ export function SignInForm() {
 
     const result = await signIn("credentials", {
       ...values,
+      callbackUrl: searchParams.get("callbackUrl") ?? "/",
       redirect: false
     });
 
     if (result?.error) {
-      setFormError("Invalid email or password.");
+      setFormError(
+        result.error === "CredentialsSignin"
+          ? "Invalid email or password."
+          : result.error
+      );
       return;
     }
 
-    router.push("/");
-    router.refresh();
+    window.location.assign(result?.url ?? "/");
   });
 
   return (

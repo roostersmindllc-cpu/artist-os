@@ -72,6 +72,15 @@ export const metricNameValues = [
   "TICKET_SALES",
   "EMAIL_SUBSCRIBERS"
 ] as const;
+export const socialPlatformValues = ["INSTAGRAM", "TIKTOK", "YOUTUBE", "X"] as const;
+export const onboardingPlatformValues = [
+  "SPOTIFY",
+  "APPLE_MUSIC",
+  "YOUTUBE",
+  "TIKTOK",
+  "INSTAGRAM",
+  "EMAIL"
+] as const;
 
 export const releaseTypeLabels = {
   SINGLE: "Single",
@@ -111,6 +120,22 @@ export const contentPlatformLabels = {
   EMAIL: "Email",
   X: "X",
   OTHER: "Other"
+} as const;
+
+export const socialPlatformLabels = {
+  INSTAGRAM: "Instagram",
+  TIKTOK: "TikTok",
+  YOUTUBE: "YouTube",
+  X: "X"
+} as const;
+
+export const onboardingPlatformLabels = {
+  SPOTIFY: "Spotify",
+  APPLE_MUSIC: "Apple Music",
+  YOUTUBE: "YouTube",
+  TIKTOK: "TikTok",
+  INSTAGRAM: "Instagram",
+  EMAIL: "Email list"
 } as const;
 
 export const contentFormatLabels = {

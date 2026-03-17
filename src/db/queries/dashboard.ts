@@ -1,4 +1,4 @@
-import { endOfWeek, startOfDay } from "date-fns";
+import { addDays, endOfDay, startOfDay } from "date-fns";
 
 import { prisma } from "@/db/prisma";
 
@@ -7,43 +7,72 @@ export async function getDashboardCounts(
   today = new Date()
 ) {
   const startOfToday = startOfDay(today);
-  const endOfCurrentWeek = endOfWeek(today);
+  const endOfToday = endOfDay(today);
+  const releaseWindowEnd = endOfDay(addDays(today, 30));
 
-  const [releases, campaigns, fans, tasksDueThisWeek] = await prisma.$transaction([
-    prisma.release.count({
-      where: {
-        artistProfileId,
-        status: {
-          not: "ARCHIVED"
+  const [upcomingContent, tasksDueToday, campaignsRunningNow, releasesWithin30Days] =
+    await prisma.$transaction([
+      prisma.contentItem.count({
+        where: {
+          artistProfileId,
+          dueDate: {
+            gte: startOfToday
+          },
+          status: {
+            notIn: ["PUBLISHED", "ARCHIVED"]
+          }
         }
-      }
-    }),
-    prisma.campaign.count({
-      where: {
-        artistProfileId,
-        status: "ACTIVE"
-      }
-    }),
-    prisma.fan.count({ where: { artistProfileId } }),
-    prisma.task.count({
-      where: {
-        artistProfileId,
-        dueDate: {
-          gte: startOfToday,
-          lte: endOfCurrentWeek
-        },
-        status: {
-          notIn: ["DONE", "CANCELED"]
+      }),
+      prisma.task.count({
+        where: {
+          artistProfileId,
+          dueDate: {
+            gte: startOfToday,
+            lte: endOfToday
+          },
+          status: {
+            notIn: ["DONE", "CANCELED"]
+          }
         }
-      }
-    })
-  ]);
+      }),
+      prisma.campaign.count({
+        where: {
+          artistProfileId,
+          status: "ACTIVE",
+          startDate: {
+            lte: endOfToday
+          },
+          OR: [
+            {
+              endDate: null
+            },
+            {
+              endDate: {
+                gte: startOfToday
+              }
+            }
+          ]
+        }
+      }),
+      prisma.release.count({
+        where: {
+          artistProfileId,
+          releaseDate: {
+            gte: startOfToday,
+            lte: releaseWindowEnd
+          },
+          status: {
+            not: "ARCHIVED"
+          }
+        }
+      })
+    ]);
 
   return {
-    releases,
-    activeCampaigns: campaigns,
-    fans,
-    tasksDueThisWeek
+    upcomingContent,
+    tasksDueToday,
+    campaignsRunningNow,
+    releasesWithin30Days
   };
 }
 
@@ -78,6 +107,82 @@ export async function getNextUpcomingReleaseByArtistProfileId(
     },
     orderBy: [{ releaseDate: "asc" }, { createdAt: "asc" }]
   });
+}
+
+export async function getNextUpcomingReleaseHealthSourceByArtistProfileId(
+  artistProfileId: string,
+  today = new Date()
+) {
+  const release = await prisma.release.findFirst({
+    where: {
+      artistProfileId,
+      releaseDate: {
+        gte: startOfDay(today)
+      },
+      status: {
+        not: "ARCHIVED"
+      }
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      type: true,
+      status: true,
+      releaseDate: true,
+      distributor: true,
+      coverArtUrl: true,
+      campaigns: {
+        where: {
+          status: {
+            not: "ARCHIVED"
+          }
+        },
+        select: {
+          id: true,
+          status: true
+        }
+      },
+      contentItems: {
+        where: {
+          status: {
+            not: "ARCHIVED"
+          }
+        },
+        select: {
+          id: true,
+          status: true
+        }
+      }
+    },
+    orderBy: [{ releaseDate: "asc" }, { createdAt: "asc" }]
+  });
+
+  if (!release) {
+    return null;
+  }
+
+  const tasks = await prisma.task.findMany({
+    where: {
+      artistProfileId,
+      relatedType: "RELEASE",
+      relatedId: release.id,
+      status: {
+        not: "CANCELED"
+      }
+    },
+    select: {
+      id: true,
+      title: true,
+      status: true
+    },
+    orderBy: [{ createdAt: "asc" }]
+  });
+
+  return {
+    ...release,
+    tasks
+  };
 }
 
 export async function listUpcomingContentItemsForDashboardByArtistProfileId(
@@ -117,6 +222,130 @@ export async function listUpcomingContentItemsForDashboardByArtistProfileId(
     },
     orderBy: [
       { dueDate: "asc" },
+      { createdAt: "asc" }
+    ],
+    take: limit
+  });
+}
+
+export async function listTasksDueTodayForDashboardByArtistProfileId(
+  artistProfileId: string,
+  limit = 4,
+  today = new Date()
+) {
+  const startOfToday = startOfDay(today);
+  const endOfToday = endOfDay(today);
+
+  return prisma.task.findMany({
+    where: {
+      artistProfileId,
+      dueDate: {
+        gte: startOfToday,
+        lte: endOfToday
+      },
+      status: {
+        notIn: ["DONE", "CANCELED"]
+      }
+    },
+    select: {
+      id: true,
+      title: true,
+      priority: true,
+      status: true,
+      dueDate: true,
+      relatedType: true
+    },
+    orderBy: [
+      { priority: "desc" },
+      { dueDate: "asc" },
+      { createdAt: "asc" }
+    ],
+    take: limit
+  });
+}
+
+export async function listCampaignsRunningNowForDashboardByArtistProfileId(
+  artistProfileId: string,
+  limit = 4,
+  today = new Date()
+) {
+  const startOfToday = startOfDay(today);
+  const endOfToday = endOfDay(today);
+
+  return prisma.campaign.findMany({
+    where: {
+      artistProfileId,
+      status: "ACTIVE",
+      startDate: {
+        lte: endOfToday
+      },
+      OR: [
+        {
+          endDate: null
+        },
+        {
+          endDate: {
+            gte: startOfToday
+          }
+        }
+      ]
+    },
+    select: {
+      id: true,
+      name: true,
+      objective: true,
+      startDate: true,
+      endDate: true,
+      status: true,
+      release: {
+        select: {
+          id: true,
+          title: true
+        }
+      }
+    },
+    orderBy: [
+      { startDate: "asc" },
+      { createdAt: "asc" }
+    ],
+    take: limit
+  });
+}
+
+export async function listReleasesWithinDaysForDashboardByArtistProfileId(
+  artistProfileId: string,
+  days = 30,
+  limit = 4,
+  today = new Date()
+) {
+  return prisma.release.findMany({
+    where: {
+      artistProfileId,
+      releaseDate: {
+        gte: startOfDay(today),
+        lte: endOfDay(addDays(today, days))
+      },
+      status: {
+        not: "ARCHIVED"
+      }
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      type: true,
+      status: true,
+      releaseDate: true,
+      distributor: true,
+      _count: {
+        select: {
+          campaigns: true,
+          tracks: true
+        }
+      }
+    },
+    orderBy: [
+      { releaseDate: "asc" },
       { createdAt: "asc" }
     ],
     take: limit

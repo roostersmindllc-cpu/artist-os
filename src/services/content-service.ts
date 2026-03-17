@@ -28,6 +28,7 @@ import type {
   ContentReleaseOptionDto
 } from "@/services/content-types";
 import { requireArtistProfileForUser } from "@/services/artist-profiles-service";
+import { UserFacingError } from "@/lib/errors";
 
 async function assertLinkedCampaignExists(
   artistProfileId: string,
@@ -41,7 +42,7 @@ async function assertLinkedCampaignExists(
   const campaign = campaigns.find((item) => item.id === campaignId);
 
   if (!campaign) {
-    throw new Error("Linked campaign could not be found.");
+    throw new UserFacingError("Linked campaign could not be found.");
   }
 
   return campaign;
@@ -58,7 +59,7 @@ async function assertLinkedReleaseExists(
   const release = await getReleaseSummaryById(artistProfileId, releaseId);
 
   if (!release) {
-    throw new Error("Linked release could not be found.");
+    throw new UserFacingError("Linked release could not be found.");
   }
 
   return release;
@@ -138,7 +139,7 @@ async function requireContentItemForUser(userId: string, contentItemId: string) 
   const contentItem = await getContentItemById(artistProfile.id, contentItemId);
 
   if (!contentItem) {
-    throw new Error("Content item could not be found.");
+    throw new UserFacingError("Content item could not be found.");
   }
 
   return {
@@ -212,7 +213,7 @@ export async function updateContentItemForUser(
   const existingContentItem = await getContentItemSummaryById(artistProfile.id, contentItemId);
 
   if (!existingContentItem) {
-    throw new Error("Content item could not be found.");
+    throw new UserFacingError("Content item could not be found.");
   }
 
   const normalizedInput = normalizeContentInput(parsed);
@@ -229,7 +230,7 @@ export async function updateContentItemForUser(
   );
 
   if (updatedCount === 0) {
-    throw new Error("Content item could not be updated.");
+    throw new UserFacingError("Content item could not be updated.");
   }
 
   return {
@@ -250,13 +251,13 @@ export async function deleteContentItemForUser(userId: string, contentItemId: st
   const existingContentItem = await getContentItemSummaryById(artistProfile.id, contentItemId);
 
   if (!existingContentItem) {
-    throw new Error("Content item could not be found.");
+    throw new UserFacingError("Content item could not be found.");
   }
 
   const deletedCount = await deleteContentItem(artistProfile.id, contentItemId);
 
   if (deletedCount === 0) {
-    throw new Error("Content item could not be deleted.");
+    throw new UserFacingError("Content item could not be deleted.");
   }
 
   return {

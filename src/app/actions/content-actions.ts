@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import type { ActionResult } from "@/lib/action-result";
 import { requireUser } from "@/lib/auth";
+import { captureServerAnalyticsEvent } from "@/lib/posthog-server";
 import type { ContentFormValues } from "@/lib/validations/content";
 import { getCampaignRoute } from "@/services/campaigns-helpers";
 import { getContentRoute } from "@/services/content-helpers";
@@ -39,6 +40,15 @@ export async function createContentItemAction(
     const contentItem = await createContentItemForUser(user.id, values);
     revalidateContentPaths(contentItem.id);
     revalidateLinkedPaths(contentItem.campaignId, contentItem.releaseId);
+    await captureServerAnalyticsEvent({
+      distinctId: user.id,
+      event: "content item created",
+      properties: {
+        contentItemId: contentItem.id,
+        platform: values.platform,
+        status: values.status
+      }
+    });
 
     return {
       success: true,

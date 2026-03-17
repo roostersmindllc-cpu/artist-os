@@ -102,6 +102,18 @@ body {
   font-family: var(--font-sans);
 }
 
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+  }
+}
+
 h1,
 h2,
 h3,

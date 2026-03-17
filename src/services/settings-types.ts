@@ -15,6 +15,9 @@ export type SettingsOverviewDto = {
     genre: string | null;
     bio: string | null;
     goals: string[];
+    audienceSize: number | null;
+    socialPlatforms: string[];
+    platformsUsed: string[];
     counts: {
       releases: number;
       campaigns: number;

@@ -64,6 +64,74 @@ export function AppPageSkeleton() {
   );
 }
 
+export function DashboardPageSkeleton() {
+  return (
+    <section className="mx-auto w-full max-w-[1360px] space-y-6">
+      <div className="space-y-3">
+        <Skeleton className="h-3 w-32 rounded-full" />
+        <Skeleton className="h-11 w-64" />
+        <Skeleton className="h-4 w-full max-w-3xl" />
+      </div>
+
+      <div className="overflow-hidden rounded-[2rem] border border-border/70 bg-card/85 p-6 shadow-sm">
+        <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-5">
+            <Skeleton className="h-8 w-44 rounded-full" />
+            <Skeleton className="h-12 w-full max-w-xl" />
+            <Skeleton className="h-4 w-full max-w-2xl" />
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="rounded-3xl border border-border/70 bg-background/55 p-4"
+                >
+                  <Skeleton className="h-3 w-20 rounded-full" />
+                  <Skeleton className="mt-3 h-8 w-14" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-[28px] border border-border/70 bg-background/60 p-5 shadow-sm">
+            <Skeleton className="h-6 w-32" />
+            <div className="mt-5 space-y-3">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <Skeleton key={index} className="h-20 w-full" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="overflow-hidden rounded-[2rem] border border-border/70 bg-card/85 p-6 shadow-sm">
+        <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)]">
+          <Skeleton className="h-[260px] w-full" />
+          <div className="space-y-4">
+            <Skeleton className="h-16 w-full" />
+            {Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton key={index} className="h-24 w-full" />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <TablePanelSkeleton key={index} />
+        ))}
+      </div>
+
+      <div className="overflow-hidden rounded-[2rem] border border-border/70 bg-card/85 p-6 shadow-sm">
+        <Skeleton className="h-7 w-56" />
+        <div className="mt-5 grid gap-4 xl:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Skeleton key={index} className="h-40 w-full" />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function ListPageSkeleton() {
   return (
     <section className="mx-auto w-full max-w-[1360px] space-y-8">

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 
 import "@/app/globals.css";
+import { AppAnalyticsProvider } from "@/components/telemetry/app-analytics-provider";
 
 function getMetadataBase() {
   const appUrl = process.env.NEXTAUTH_URL;
@@ -62,8 +63,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
-        {children}
-        <Toaster richColors position="top-right" />
+        <AppAnalyticsProvider>
+          {children}
+          <Toaster richColors position="top-right" />
+        </AppAnalyticsProvider>
       </body>
     </html>
   );

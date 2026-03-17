@@ -2,9 +2,12 @@ import { prisma } from "@/db/prisma";
 
 type UpsertArtistProfileInput = {
   artistName: string;
-  genre: string;
-  bio: string;
-  goals: string[];
+  genre?: string | null;
+  bio?: string | null;
+  goals?: string[];
+  audienceSize?: number | null;
+  socialPlatforms?: string[];
+  platformsUsed?: string[];
 };
 
 export async function getArtistProfileByUserId(userId: string) {

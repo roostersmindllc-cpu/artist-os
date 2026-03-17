@@ -53,4 +53,25 @@ describe("analytics import", () => {
     expect(preview.errors[0]?.message).toContain("must be a non-negative number");
     expect(preview.errors[1]?.message).toContain('Unknown source "Unknown"');
   });
+
+  it("accepts platform export source aliases", () => {
+    const preview = previewMetricCsvImport(
+      [
+        "source,metric,value,date,metadata",
+        "Spotify for Artists,Streams,12450,2026-03-01,",
+        "TikTok Analytics,Views,15300,2026-03-01,"
+      ].join("\n"),
+      defaultMapping
+    );
+
+    expect(preview.validRowCount).toBe(2);
+    expect(preview.validRows[0]).toMatchObject({
+      source: "SPOTIFY",
+      metricName: "STREAMS"
+    });
+    expect(preview.validRows[1]).toMatchObject({
+      source: "TIKTOK",
+      metricName: "STREAMS"
+    });
+  });
 });

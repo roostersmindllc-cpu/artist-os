@@ -25,13 +25,14 @@ import type {
   CampaignReleaseOptionDto
 } from "@/services/campaigns-types";
 import { requireArtistProfileForUser } from "@/services/artist-profiles-service";
+import { UserFacingError } from "@/lib/errors";
 
 async function requireCampaignForUser(userId: string, campaignId: string) {
   const artistProfile = await requireArtistProfileForUser(userId);
   const campaign = await getCampaignById(artistProfile.id, campaignId);
 
   if (!campaign) {
-    throw new Error("Campaign could not be found.");
+    throw new UserFacingError("Campaign could not be found.");
   }
 
   return {
@@ -51,7 +52,7 @@ async function assertLinkedReleaseExists(
   const release = await getReleaseSummaryById(artistProfileId, releaseId);
 
   if (!release) {
-    throw new Error("Linked release could not be found.");
+    throw new UserFacingError("Linked release could not be found.");
   }
 
   return release;
@@ -133,7 +134,7 @@ export async function updateCampaignForUser(
   const existingCampaign = await getCampaignSummaryById(artistProfile.id, campaignId);
 
   if (!existingCampaign) {
-    throw new Error("Campaign could not be found.");
+    throw new UserFacingError("Campaign could not be found.");
   }
 
   const normalizedInput = normalizeCampaignInput(parsed);
@@ -142,7 +143,7 @@ export async function updateCampaignForUser(
   const updatedCount = await updateCampaign(artistProfile.id, campaignId, normalizedInput);
 
   if (updatedCount === 0) {
-    throw new Error("Campaign could not be updated.");
+    throw new UserFacingError("Campaign could not be updated.");
   }
 
   return {
@@ -161,13 +162,13 @@ export async function deleteCampaignForUser(userId: string, campaignId: string) 
   const existingCampaign = await getCampaignSummaryById(artistProfile.id, campaignId);
 
   if (!existingCampaign) {
-    throw new Error("Campaign could not be found.");
+    throw new UserFacingError("Campaign could not be found.");
   }
 
   const deletedCount = await deleteCampaign(artistProfile.id, campaignId);
 
   if (deletedCount === 0) {
-    throw new Error("Campaign could not be deleted.");
+    throw new UserFacingError("Campaign could not be deleted.");
   }
 
   return {

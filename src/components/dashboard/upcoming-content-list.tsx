@@ -1,16 +1,10 @@
 import Link from "next/link";
-import { CalendarDays } from "lucide-react";
+import { ArrowRight, CalendarDays } from "lucide-react";
 
+import { DashboardWidgetShell } from "@/components/dashboard/dashboard-widget-shell";
 import { EmptyState } from "@/components/shared/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
 import {
   contentFormatLabels,
   contentPlatformLabels,
@@ -20,6 +14,7 @@ import { getStatusVariant } from "@/lib/presentation";
 import { cn, formatDate } from "@/lib/utils";
 
 type UpcomingContentListProps = {
+  totalCount: number;
   items: Array<{
     id: string;
     title: string;
@@ -38,16 +33,18 @@ type UpcomingContentListProps = {
   }>;
 };
 
-export function UpcomingContentList({ items }: UpcomingContentListProps) {
+export function UpcomingContentList({
+  totalCount,
+  items
+}: UpcomingContentListProps) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Upcoming content</CardTitle>
-        <CardDescription>
-          The next pieces of promo work across campaigns and release moments.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+    <DashboardWidgetShell
+      title="Upcoming content"
+      description="The next posts and assets that need to move from idea into the calendar."
+      icon={CalendarDays}
+      countLabel={`${totalCount} queued`}
+    >
+      <div className="flex-1 space-y-4">
         {items.length > 0 ? (
           items.map((item) => (
             <div
@@ -56,16 +53,11 @@ export function UpcomingContentList({ items }: UpcomingContentListProps) {
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary">
-                      <CalendarDays className="size-4" />
-                    </span>
-                    <div>
-                      <p className="font-medium">{item.title}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {contentPlatformLabels[item.platform]} - {contentFormatLabels[item.format]}
-                      </p>
-                    </div>
+                  <div>
+                    <p className="font-medium">{item.title}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {contentPlatformLabels[item.platform]} - {contentFormatLabels[item.format]}
+                    </p>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Due {formatDate(item.dueDate)}
@@ -83,18 +75,31 @@ export function UpcomingContentList({ items }: UpcomingContentListProps) {
         ) : (
           <EmptyState
             title="No upcoming content"
-            description="Add a content item to make the release calendar visible from the dashboard."
+            description="Nothing is queued right now. Schedule a post to keep the release calendar moving."
             action={
               <Link
-                href="/content"
+                href="/content#content-composer"
                 className={cn(buttonVariants({ variant: "outline" }), "rounded-2xl")}
               >
-                View content
+                Schedule post
               </Link>
             }
           />
         )}
-      </CardContent>
-    </Card>
+      </div>
+
+      {items.length > 0 ? (
+        <Link
+          href="/content"
+          className={cn(
+            buttonVariants({ variant: "outline" }),
+            "mt-auto rounded-2xl border-border/70"
+          )}
+        >
+          Open content calendar
+          <ArrowRight className="size-4" />
+        </Link>
+      ) : null}
+    </DashboardWidgetShell>
   );
 }

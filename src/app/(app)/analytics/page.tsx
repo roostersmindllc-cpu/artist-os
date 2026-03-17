@@ -52,7 +52,7 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
   return (
     <PageContainer
       title="Analytics"
-      description="Track normalized metric snapshots over time, import clean CSV history, and keep the MVP analytics layer ready for future platform sync."
+      description="Track normalized metric snapshots over time, import CSV exports from Spotify for Artists, YouTube, and TikTok, and keep charts current automatically."
       eyebrow="Performance tracking"
     >
       <AnalyticsFilters filters={filters} />
@@ -132,7 +132,12 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[420px_1fr]">
-        <AnalyticsForm defaultSource={filters.source} defaultMetricName={filters.metricName} />
+        <div id="analytics-entry">
+          <AnalyticsForm
+            defaultSource={filters.source}
+            defaultMetricName={filters.metricName}
+          />
+        </div>
         <Card className="border-border/70 bg-card/90 shadow-sm">
           <CardHeader>
             <CardTitle>{overview.selectedSeriesLabel}</CardTitle>

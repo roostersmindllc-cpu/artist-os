@@ -1,5 +1,4 @@
 import {
-  createRelease,
   deleteRelease,
   getReleaseById,
   getReleaseSummaryById,
@@ -9,6 +8,7 @@ import {
 } from "@/db/queries/releases";
 import { createTrack, deleteTrack, updateTrack } from "@/db/queries/tracks";
 import { listUpcomingTasksByRelatedReleaseId } from "@/db/queries/tasks";
+import { UserFacingError } from "@/lib/errors";
 import { slugify } from "@/lib/slug";
 import {
   normalizeReleaseInput,
@@ -26,6 +26,7 @@ import {
   getReleaseRoute
 } from "@/services/releases-helpers";
 import { requireArtistProfileForUser } from "@/services/artist-profiles-service";
+import { createReleaseWithAutomation } from "@/services/release-automation-service";
 
 async function generateUniqueReleaseSlug(
   artistProfileId: string,
@@ -49,7 +50,7 @@ async function requireReleaseForUser(userId: string, releaseId: string) {
   const release = await getReleaseById(artistProfile.id, releaseId);
 
   if (!release) {
-    throw new Error("Release could not be found.");
+    throw new UserFacingError("Release could not be found.");
   }
 
   return {
@@ -72,7 +73,7 @@ export async function createReleaseForUser(userId: string, values: ReleaseFormVa
   const normalizedInput = normalizeReleaseInput(parsed);
   const slug = await generateUniqueReleaseSlug(artistProfile.id, normalizedInput.title);
 
-  return createRelease(artistProfile.id, {
+  return createReleaseWithAutomation(artistProfile.id, {
     ...normalizedInput,
     slug
   });
@@ -88,7 +89,7 @@ export async function updateReleaseForUser(
   const existingRelease = await getReleaseSummaryById(artistProfile.id, releaseId);
 
   if (!existingRelease) {
-    throw new Error("Release could not be found.");
+    throw new UserFacingError("Release could not be found.");
   }
 
   const normalizedInput = normalizeReleaseInput(parsed);
@@ -104,7 +105,7 @@ export async function updateReleaseForUser(
   });
 
   if (updatedCount === 0) {
-    throw new Error("Release could not be updated.");
+    throw new UserFacingError("Release could not be updated.");
   }
 
   return {
@@ -119,7 +120,7 @@ export async function deleteReleaseForUser(userId: string, releaseId: string) {
   const deletedCount = await deleteRelease(artistProfile.id, releaseId);
 
   if (deletedCount === 0) {
-    throw new Error("Release could not be deleted.");
+    throw new UserFacingError("Release could not be deleted.");
   }
 }
 
@@ -174,7 +175,7 @@ export async function updateTrackForRelease(
   const updatedCount = await updateTrack(release.id, trackId, normalizeTrackInput(parsed));
 
   if (updatedCount === 0) {
-    throw new Error("Track could not be updated.");
+    throw new UserFacingError("Track could not be updated.");
   }
 }
 
@@ -187,6 +188,6 @@ export async function deleteTrackForRelease(
   const deletedCount = await deleteTrack(release.id, trackId);
 
   if (deletedCount === 0) {
-    throw new Error("Track could not be deleted.");
+    throw new UserFacingError("Track could not be deleted.");
   }
 }

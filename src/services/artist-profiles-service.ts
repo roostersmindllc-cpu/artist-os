@@ -1,13 +1,7 @@
 import {
   getArtistProfileByUserId,
-  getArtistProfileDetailsByUserId,
-  upsertArtistProfileByUserId
+  getArtistProfileDetailsByUserId
 } from "@/db/queries/artist-profiles";
-import {
-  normalizeOnboardingInput,
-  onboardingFormSchema,
-  type OnboardingFormValues
-} from "@/lib/validations/onboarding";
 
 export class ArtistProfileRequiredError extends Error {
   constructor() {
@@ -31,14 +25,6 @@ export async function requireArtistProfileForUser(userId: string) {
 
 export async function hasArtistProfileForUser(userId: string) {
   return Boolean(await getArtistProfileForUser(userId));
-}
-
-export async function completeArtistOnboardingForUser(
-  userId: string,
-  values: OnboardingFormValues
-) {
-  const parsed = onboardingFormSchema.parse(values);
-  return upsertArtistProfileByUserId(userId, normalizeOnboardingInput(parsed));
 }
 
 export async function getArtistProfileOverviewForUser(userId: string) {

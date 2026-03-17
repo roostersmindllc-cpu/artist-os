@@ -28,7 +28,10 @@ export default async function SettingsPage() {
     artistName: settings.artistProfile.artistName,
     genre: settings.artistProfile.genre,
     bio: settings.artistProfile.bio,
-    goals: settings.artistProfile.goals
+    goals: settings.artistProfile.goals,
+    audienceSize: settings.artistProfile.audienceSize,
+    socialPlatforms: settings.artistProfile.socialPlatforms,
+    platformsUsed: settings.artistProfile.platformsUsed
   });
 
   return (

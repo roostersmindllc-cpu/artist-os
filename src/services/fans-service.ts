@@ -15,6 +15,7 @@ import {
   type FanListFiltersValues,
   normalizeFanInput
 } from "@/lib/validations/fans";
+import { UserFacingError } from "@/lib/errors";
 import { requireArtistProfileForUser } from "@/services/artist-profiles-service";
 import { collectFanFilterOptions, getFanRoute } from "@/services/fans-helpers";
 import type {
@@ -53,7 +54,7 @@ async function assertFanEmailAvailable(
   const emailTaken = await isFanEmailTaken(artistProfileId, email, excludeFanId);
 
   if (emailTaken) {
-    throw new Error("A fan with this email already exists.");
+    throw new UserFacingError("A fan with this email already exists.");
   }
 }
 
@@ -62,7 +63,7 @@ async function requireFanForUser(userId: string, fanId: string) {
   const fan = await getFanById(artistProfile.id, fanId);
 
   if (!fan) {
-    throw new Error("Fan could not be found.");
+    throw new UserFacingError("Fan could not be found.");
   }
 
   return {
@@ -106,7 +107,7 @@ export async function updateFanForUser(
   const existingFan = await getFanSummaryById(artistProfile.id, fanId);
 
   if (!existingFan) {
-    throw new Error("Fan could not be found.");
+    throw new UserFacingError("Fan could not be found.");
   }
 
   const normalizedInput = normalizeFanInput(parsed);
@@ -115,7 +116,7 @@ export async function updateFanForUser(
   const updatedCount = await updateFan(artistProfile.id, fanId, normalizedInput);
 
   if (updatedCount === 0) {
-    throw new Error("Fan could not be updated.");
+    throw new UserFacingError("Fan could not be updated.");
   }
 
   return {
@@ -129,7 +130,7 @@ export async function deleteFanForUser(userId: string, fanId: string) {
   const deletedCount = await deleteFan(artistProfile.id, fanId);
 
   if (deletedCount === 0) {
-    throw new Error("Fan could not be deleted.");
+    throw new UserFacingError("Fan could not be deleted.");
   }
 
   return {

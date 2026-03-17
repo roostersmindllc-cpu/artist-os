@@ -6,6 +6,9 @@ import { redirect } from "next/navigation";
 import { getUserByEmail, getUserById } from "@/db/queries/users";
 import { prisma } from "@/db/prisma";
 import { verifyPassword } from "@/lib/password";
+import { getClientIp } from "@/lib/request-context";
+import { enforceRateLimit } from "@/lib/rate-limit";
+import { serverEnv } from "@/lib/server-env";
 import { signInSchema } from "@/lib/validations/auth";
 
 export const authOptions: NextAuthOptions = {
@@ -24,7 +27,17 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
+        await enforceRateLimit({
+          scope: "auth.sign-in",
+          maxHits: serverEnv.AUTH_SIGN_IN_RATE_LIMIT_MAX,
+          windowMs: serverEnv.AUTH_SIGN_IN_RATE_LIMIT_WINDOW_MS,
+          identifiers: [
+            getClientIp(request?.headers),
+            typeof credentials?.email === "string" ? credentials.email : undefined
+          ]
+        });
+
         const parsed = signInSchema.safeParse(credentials);
 
         if (!parsed.success) {

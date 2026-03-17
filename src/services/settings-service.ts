@@ -19,6 +19,7 @@ import {
   type ArtistProfileSettingsFormValues,
   type PreferencesFormValues
 } from "@/lib/validations/settings";
+import { UserFacingError } from "@/lib/errors";
 import { getIntegrationPlaceholdersForUser } from "@/services/integrations/registry";
 import type { SettingsOverviewDto } from "@/services/settings-types";
 import {
@@ -30,7 +31,7 @@ async function requireSettingsUser(userId: string) {
   const user = await getUserById(userId);
 
   if (!user) {
-    throw new Error("User could not be found.");
+    throw new UserFacingError("User could not be found.");
   }
 
   return user;
@@ -40,7 +41,7 @@ async function requireSettingsArtistProfile(userId: string) {
   const artistProfile = await getArtistProfileDetailsByUserId(userId);
 
   if (!artistProfile) {
-    throw new Error("Artist profile could not be found.");
+    throw new UserFacingError("Artist profile could not be found.");
   }
 
   return artistProfile;
@@ -50,7 +51,7 @@ async function assertUserEmailAvailable(email: string, userId: string) {
   const emailTaken = await isUserEmailTaken(email, userId);
 
   if (emailTaken) {
-    throw new Error("An account with this email already exists.");
+    throw new UserFacingError("An account with this email already exists.");
   }
 }
 
@@ -79,6 +80,9 @@ export async function getSettingsOverviewForUser(
       genre: artistProfile.genre,
       bio: artistProfile.bio,
       goals: artistProfile.goals,
+      audienceSize: artistProfile.audienceSize,
+      socialPlatforms: artistProfile.socialPlatforms,
+      platformsUsed: artistProfile.platformsUsed,
       counts: {
         releases: artistProfile._count.releases,
         campaigns: artistProfile._count.campaigns,
@@ -115,7 +119,7 @@ export async function updateAccountSettingsForUser(
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2002"
     ) {
-      throw new Error("An account with this email already exists.");
+      throw new UserFacingError("An account with this email already exists.");
     }
 
     throw error;

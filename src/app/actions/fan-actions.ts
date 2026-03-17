@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import type { ActionResult } from "@/lib/action-result";
 import { requireUser } from "@/lib/auth";
+import { captureServerAnalyticsEvent } from "@/lib/posthog-server";
 import type { FanFormValues } from "@/lib/validations/fans";
 import { getFanRoute } from "@/services/fans-helpers";
 import {
@@ -27,6 +28,15 @@ export async function createFanAction(
     const user = await requireUser();
     const fan = await createFanForUser(user.id, values);
     revalidateFanPaths(fan.id);
+    await captureServerAnalyticsEvent({
+      distinctId: user.id,
+      event: "fan created",
+      properties: {
+        fanId: fan.id,
+        hasEmail: Boolean(values.email),
+        engagementScore: values.engagementScore
+      }
+    });
 
     return {
       success: true,

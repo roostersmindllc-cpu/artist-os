@@ -8,12 +8,12 @@ export default function manifest(): MetadataRoute.Manifest {
       "Production-minded SaaS dashboard for releases, campaigns, content, analytics, fans, and tasks.",
     start_url: "/dashboard",
     display: "standalone",
-    background_color: "#09090b",
-    theme_color: "#111827",
+    background_color: "#09111f",
+    theme_color: "#10263d",
     icons: [
       {
         src: "/icon",
-        sizes: "64x64",
+        sizes: "128x128",
         type: "image/png"
       },
       {

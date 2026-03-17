@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
+import { ArtistOsLogo } from "@/components/brand/artist-os-logo";
 import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -49,12 +50,15 @@ export function MobileSidebar() {
           aria-label="Navigation"
         >
           <div className="flex items-start justify-between gap-4">
-            <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">
-                Artist OS
-              </p>
+            <div className="space-y-3">
+              <ArtistOsLogo
+                compact
+                withTagline
+                className="items-start"
+                markClassName="h-12 w-12"
+              />
               <h2 className="font-heading text-2xl font-semibold">
-                Release ops, content, and analytics in one place.
+                Release ops, content, and insight in one place.
               </h2>
             </div>
             <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)}>

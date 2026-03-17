@@ -2,39 +2,57 @@ import { listRecentMetricSnapshotsByArtistProfileId } from "@/db/queries/analyti
 import {
   getDashboardCounts,
   getNextUpcomingReleaseByArtistProfileId,
+  getNextUpcomingReleaseHealthSourceByArtistProfileId,
+  listCampaignsRunningNowForDashboardByArtistProfileId,
   listRecentDashboardActivityRecordsByArtistProfileId,
+  listReleasesWithinDaysForDashboardByArtistProfileId,
+  listTasksDueTodayForDashboardByArtistProfileId,
   listUpcomingContentItemsForDashboardByArtistProfileId
 } from "@/db/queries/dashboard";
 import {
-  buildAnalyticsChartData,
-  buildAnalyticsSummary,
-  buildAnalyticsTimeline
-} from "@/services/analytics-helpers";
-import { buildDashboardActivityFeed } from "@/services/dashboard-helpers";
+  buildDashboardActivityFeed,
+  buildDashboardReleaseHealthInsight,
+  buildDashboardPerformanceSnapshot
+} from "@/services/dashboard-helpers";
 import { requireArtistProfileForUser } from "@/services/artist-profiles-service";
 
 export async function getDashboardOverview(userId: string) {
   const artistProfile = await requireArtistProfileForUser(userId);
 
-  const [counts, nextRelease, upcomingContentItems, metricSnapshots, activityRecords] =
-    await Promise.all([
-      getDashboardCounts(artistProfile.id),
-      getNextUpcomingReleaseByArtistProfileId(artistProfile.id),
-      listUpcomingContentItemsForDashboardByArtistProfileId(artistProfile.id, 5),
-      listRecentMetricSnapshotsByArtistProfileId(artistProfile.id, 80),
-      listRecentDashboardActivityRecordsByArtistProfileId(artistProfile.id, 4)
-    ]);
-
-  const timeline = buildAnalyticsTimeline([...metricSnapshots].reverse());
-  const analyticsSummary = buildAnalyticsSummary(timeline);
+  const [
+    counts,
+    nextRelease,
+    nextReleaseHealthSource,
+    upcomingContentItems,
+    tasksDueToday,
+    campaignsRunningNow,
+    releasesWithin30Days,
+    metricSnapshots,
+    activityRecords
+  ] = await Promise.all([
+    getDashboardCounts(artistProfile.id),
+    getNextUpcomingReleaseByArtistProfileId(artistProfile.id),
+    getNextUpcomingReleaseHealthSourceByArtistProfileId(artistProfile.id),
+    listUpcomingContentItemsForDashboardByArtistProfileId(artistProfile.id, 4),
+    listTasksDueTodayForDashboardByArtistProfileId(artistProfile.id, 4),
+    listCampaignsRunningNowForDashboardByArtistProfileId(artistProfile.id, 4),
+    listReleasesWithinDaysForDashboardByArtistProfileId(artistProfile.id, 30, 4),
+    listRecentMetricSnapshotsByArtistProfileId(artistProfile.id, 200),
+    listRecentDashboardActivityRecordsByArtistProfileId(artistProfile.id, 4)
+  ]);
 
   return {
     artistProfile,
     counts,
     nextRelease,
+    releaseHealthInsight: nextReleaseHealthSource
+      ? buildDashboardReleaseHealthInsight(nextReleaseHealthSource)
+      : null,
     upcomingContentItems,
-    analyticsSummary,
-    chartData: buildAnalyticsChartData(timeline),
+    tasksDueToday,
+    campaignsRunningNow,
+    releasesWithin30Days,
+    performanceSnapshot: buildDashboardPerformanceSnapshot(metricSnapshots),
     recentActivity: buildDashboardActivityFeed(
       [
         ...activityRecords.releases.map((release) => ({
