@@ -63,10 +63,10 @@ Optional runtime tuning:
 - `ANALYTICS_IMPORT_RATE_LIMIT_MAX`
 - `ANALYTICS_IMPORT_RATE_LIMIT_WINDOW_MS`
 
-Local-only seed defaults:
+Optional local seed account:
 
-- `DEMO_USER_EMAIL`
-- `DEMO_USER_PASSWORD`
+- `SEED_USER_EMAIL`
+- `SEED_USER_PASSWORD`
 
 Production guidance:
 
@@ -74,7 +74,7 @@ Production guidance:
 - Point `DATABASE_URL` at the provider's pooled connection string and `DIRECT_URL` at the direct connection string for migrations.
 - Set `NEXTAUTH_URL` to the production domain, for example `https://app.example.com`.
 - Generate `NEXTAUTH_SECRET` with a strong random value and store it only in your hosting provider's secret manager.
-- Do not keep demo seed credentials enabled for production operators unless you intentionally want that access path.
+- Do not keep local seed credentials enabled for production operators unless you intentionally want that access path.
 - Set `NEXT_PUBLIC_SENTRY_DSN` and `NEXT_PUBLIC_POSTHOG_KEY` before public launch so monitoring starts on day one.
 
 ## Local Setup
@@ -100,26 +100,26 @@ npm run db:generate
 npm run db:migrate -- --name init
 ```
 
-4. Seed local demo data.
+4. Optional: set local seed credentials in `.env` if you want sample data tied to a sign-in account.
+
+```bash
+SEED_USER_EMAIL=you@example.com
+SEED_USER_PASSWORD=change-me-first
+```
+
+5. Seed local sample data.
 
 ```bash
 npm run db:seed
 ```
 
-5. Start the app.
+6. Start the app.
 
 ```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
-
-## Demo Login
-
-- Email: `demo@artistos.app`
-- Password: `artistos-demo-password`
-
-You can override those values in `.env` before running the seed script.
 
 ## Migration Commands
 
@@ -153,13 +153,13 @@ npm run db:seed
 
 The seed creates:
 
-- a demo user and artist profile
+- a local seed user and artist profile
 - releases and tracks across multiple statuses
 - campaigns, content items, fans, tasks, and metric snapshots
 
 Production note:
 
-- Do not run the demo seed against production unless you intentionally want demo data there.
+- Do not run the sample seed against production unless you intentionally want sample data there.
 
 ## Testing And Verification
 

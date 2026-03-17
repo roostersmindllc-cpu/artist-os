@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { redirectTo } from "@/lib/browser-navigation";
 import { signInSchema, type SignInFormValues } from "@/lib/validations/auth";
 
 export function SignInForm() {
@@ -50,7 +51,7 @@ export function SignInForm() {
       return;
     }
 
-    window.location.assign(result?.url ?? "/");
+    redirectTo(result?.url ?? "/");
   });
 
   return (
@@ -59,8 +60,7 @@ export function SignInForm() {
         <div className="space-y-1">
           <CardTitle className="text-2xl">Sign in to Artist OS</CardTitle>
           <CardDescription>
-            Sign in to your workspace. For local development, the seeded demo account still
-            works after running the seed script.
+            Sign in to your workspace and pick up where today&apos;s plan left off.
           </CardDescription>
         </div>
       </CardHeader>
@@ -80,10 +80,6 @@ export function SignInForm() {
               {...form.register("password")}
             />
             <FieldError message={form.formState.errors.password?.message} />
-          </div>
-          <div className="rounded-2xl border border-border/70 bg-muted/40 p-3 text-sm text-muted-foreground">
-            Demo login: <span className="font-medium text-foreground">demo@artistos.app</span> /{" "}
-            <span className="font-medium text-foreground">artistos-demo-password</span>
           </div>
           <FieldError message={formError ?? undefined} />
           <Button className="w-full" type="submit" disabled={form.formState.isSubmitting}>

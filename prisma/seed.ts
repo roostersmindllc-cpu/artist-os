@@ -75,19 +75,26 @@ function buildMetricSnapshots({
 
 async function main() {
   const now = new Date();
-  const email = process.env.DEMO_USER_EMAIL ?? "demo@artistos.app";
-  const password = process.env.DEMO_USER_PASSWORD ?? "artistos-demo-password";
+  const email = process.env.SEED_USER_EMAIL;
+  const password = process.env.SEED_USER_PASSWORD;
+
+  if (!email || !password) {
+    throw new Error(
+      "Set SEED_USER_EMAIL and SEED_USER_PASSWORD before running the seed script."
+    );
+  }
+
   const passwordHash = await hashPassword(password);
 
   const user = await prisma.user.upsert({
     where: { email },
     update: {
-      name: "Demo Artist",
+      name: "Seed Artist",
       passwordHash
     },
     create: {
       email,
-      name: "Demo Artist",
+      name: "Seed Artist",
       passwordHash
     }
   });
@@ -95,7 +102,7 @@ async function main() {
   const artistProfile = await prisma.artistProfile.upsert({
     where: { userId: user.id },
     update: {
-      artistName: "Demo Artist",
+      artistName: "Seed Artist",
       genre: "Alternative Pop",
       bio: "Independent artist blending nocturnal synth textures, intimate writing, and a release strategy built around direct fan momentum.",
       goals: [
@@ -106,7 +113,7 @@ async function main() {
     },
     create: {
       userId: user.id,
-      artistName: "Demo Artist",
+      artistName: "Seed Artist",
       genre: "Alternative Pop",
       bio: "Independent artist blending nocturnal synth textures, intimate writing, and a release strategy built around direct fan momentum.",
       goals: [

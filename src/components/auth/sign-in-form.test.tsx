@@ -2,21 +2,21 @@ import type { AnchorHTMLAttributes } from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { pushMock, refreshMock, signInMock } = vi.hoisted(() => ({
-  pushMock: vi.fn(),
-  refreshMock: vi.fn(),
-  signInMock: vi.fn()
+const { signInMock, redirectToMock } = vi.hoisted(() => ({
+  signInMock: vi.fn(),
+  redirectToMock: vi.fn()
 }));
 
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: pushMock,
-    refresh: refreshMock
-  })
+  useSearchParams: () => new URLSearchParams("callbackUrl=%2Fdashboard")
 }));
 
 vi.mock("next-auth/react", () => ({
   signIn: signInMock
+}));
+
+vi.mock("@/lib/browser-navigation", () => ({
+  redirectTo: redirectToMock
 }));
 
 vi.mock("next/link", () => ({
@@ -49,27 +49,27 @@ describe("SignInForm", () => {
   });
 
   it("routes successful sign-ins through the server-decided post-auth redirect", async () => {
-    signInMock.mockResolvedValueOnce({ ok: true });
+    signInMock.mockResolvedValueOnce({ ok: true, url: "/dashboard" });
 
     render(<SignInForm />);
 
     fireEvent.change(screen.getByLabelText("Email"), {
-      target: { value: "demo@artistos.app" }
+      target: { value: "artist@example.com" }
     });
     fireEvent.change(screen.getByLabelText("Password"), {
-      target: { value: "artistos-demo-password" }
+      target: { value: "strong-password" }
     });
 
     fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => {
       expect(signInMock).toHaveBeenCalledWith("credentials", {
-        email: "demo@artistos.app",
-        password: "artistos-demo-password",
+        email: "artist@example.com",
+        password: "strong-password",
+        callbackUrl: "/dashboard",
         redirect: false
       });
-      expect(pushMock).toHaveBeenCalledWith("/");
-      expect(refreshMock).toHaveBeenCalled();
+      expect(redirectToMock).toHaveBeenCalledWith("/dashboard");
     });
   });
 });
