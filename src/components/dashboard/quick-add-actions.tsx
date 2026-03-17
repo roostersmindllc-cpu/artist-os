@@ -1,3 +1,5 @@
+"use client";
+
 import type { LucideIcon } from "lucide-react";
 import { BarChart3, CalendarPlus, Disc3, Users2 } from "lucide-react";
 
