@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+
+import { hasAuthSessionCookie } from "@/lib/auth-session-cookie";
 
 const protectedPrefixes = [
   "/dashboard",
@@ -19,13 +20,12 @@ function matchesRoutePrefix(pathname: string, prefixes: string[]) {
   );
 }
 
-export async function middleware(request: NextRequest) {
-  const token = await getToken({
-    req: request,
-    secret: process.env.NEXTAUTH_SECRET
-  });
+export function middleware(request: NextRequest) {
+  const hasSessionCookie = hasAuthSessionCookie(
+    request.cookies.getAll().map(({ name }) => name)
+  );
 
-  if (matchesRoutePrefix(request.nextUrl.pathname, protectedPrefixes) && !token) {
+  if (matchesRoutePrefix(request.nextUrl.pathname, protectedPrefixes) && !hasSessionCookie) {
     const signInUrl = new URL("/sign-in", request.url);
     signInUrl.searchParams.set(
       "callbackUrl",
