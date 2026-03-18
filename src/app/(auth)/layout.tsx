@@ -1,4 +1,5 @@
 import { ArtistOsLogo } from "@/components/brand/artist-os-logo";
+import { LegalFooterNav } from "@/components/legal/legal-footer-nav";
 import type { ReactNode } from "react";
 
 export default function AuthLayout({
@@ -61,17 +62,15 @@ export default function AuthLayout({
             </div>
           </div>
 
-          <div className="mt-auto flex flex-wrap gap-8 pt-10 text-sm text-white/56">
-            <span>Privacy Policy</span>
-            <span>Terms and Conditions</span>
-            <span>Disclaimers</span>
-            <span>Refund Policy</span>
-          </div>
         </section>
 
         <section className="flex items-center justify-center">
           <div className="w-full max-w-2xl">{children}</div>
         </section>
+      </div>
+
+      <div className="mx-auto mt-4 w-full max-w-[1550px] rounded-[1.5rem] border border-white/10 bg-white/6 px-4 py-4 backdrop-blur sm:px-5">
+        <LegalFooterNav className="justify-center" />
       </div>
     </div>
   );
