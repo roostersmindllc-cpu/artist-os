@@ -57,14 +57,14 @@ export function QuickAddActions() {
             onClick={() => openQuickAdd(item.view)}
             className={cn(
               buttonVariants({ variant: "outline" }),
-              "h-auto shrink-0 rounded-2xl border-border/70 bg-card/85 px-3 py-2 shadow-sm"
+              "h-auto min-w-[10.75rem] shrink-0 rounded-[1.35rem] border-black/16 bg-white px-3 py-2 text-foreground shadow-sm hover:border-primary/45 hover:bg-primary/10 sm:min-w-0 sm:rounded-full"
             )}
           >
-            <span className="inline-flex size-8 items-center justify-center rounded-xl border border-border/70 bg-background/65">
+            <span className="inline-flex size-8 items-center justify-center rounded-full border border-black/12 bg-black text-white">
               <Icon className="size-4" />
             </span>
             <span className="flex flex-col items-start">
-              <span>{item.label}</span>
+              <span className="font-semibold">{item.label}</span>
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 {item.shortcut}
               </span>

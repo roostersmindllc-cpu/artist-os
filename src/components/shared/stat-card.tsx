@@ -17,17 +17,16 @@ export function StatCard({
   icon: Icon = ArrowUpRight
 }: StatCardProps) {
   return (
-    <Card className="overflow-hidden border-border/70 bg-card/90 shadow-sm">
+    <Card className="overflow-hidden border-2 border-black/10 bg-card shadow-[0_14px_28px_rgba(0,0,0,0.08)]">
       <CardContent className="relative space-y-4 p-5">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">
               {label}
             </p>
-            <p className="font-heading text-3xl font-semibold tracking-tight">{value}</p>
+            <p className="font-heading text-4xl font-semibold tracking-tight">{value}</p>
           </div>
-          <span className="inline-flex size-11 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary shadow-sm">
+          <span className="inline-flex size-11 items-center justify-center rounded-2xl border border-black/10 bg-black text-white shadow-sm">
             <Icon className="size-5" />
           </span>
         </div>

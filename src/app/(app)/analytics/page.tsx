@@ -8,6 +8,7 @@ import { DataTableCard } from "@/components/shared/data-table-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageContainer } from "@/components/shared/page-container";
 import { StatCard } from "@/components/shared/stat-card";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -23,7 +24,7 @@ import {
   analyticsFiltersSchema,
   normalizeAnalyticsFilters
 } from "@/lib/validations/analytics";
-import { formatDate, formatMetricValue } from "@/lib/utils";
+import { cn, formatDate, formatMetricValue } from "@/lib/utils";
 import {
   formatTrackedMetricHint,
   getMetricDisplayLabel
@@ -54,6 +55,11 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
       title="Analytics"
       description="Track normalized metric snapshots over time, import CSV exports from Spotify for Artists, YouTube, and TikTok, and keep charts current automatically."
       eyebrow="Performance tracking"
+      actions={
+        <a href="#analytics-entry" className={cn(buttonVariants(), "rounded-full px-5")}>
+          Log analytics
+        </a>
+      }
     >
       <AnalyticsFilters filters={filters} />
 
@@ -138,11 +144,11 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
             defaultMetricName={filters.metricName}
           />
         </div>
-        <Card className="border-border/70 bg-card/90 shadow-sm">
-          <CardHeader>
-            <CardTitle>{overview.selectedSeriesLabel}</CardTitle>
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="text-4xl text-white">{overview.selectedSeriesLabel}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
             {overview.selectedSeriesChart.length > 0 ? (
               <MetricLineChart data={overview.selectedSeriesChart} metricName={filters.metricName} />
             ) : (

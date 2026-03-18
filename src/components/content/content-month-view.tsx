@@ -25,12 +25,12 @@ export function ContentMonthView({ items, range }: ContentMonthViewProps) {
   return (
     <>
       <div className="hidden md:block">
-        <Card className="overflow-hidden">
-          <div className="grid grid-cols-7 border-b border-border/60 bg-background/45">
+        <Card className="overflow-hidden rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <div className="grid grid-cols-7 border-b border-black/10 bg-black/[0.04]">
             {weekdayLabels.map((label) => (
               <div
                 key={label}
-                className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+                className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary/80"
               >
                 {label}
               </div>
@@ -45,7 +45,7 @@ export function ContentMonthView({ items, range }: ContentMonthViewProps) {
               return (
                 <div
                   key={day.toISOString()}
-                  className="min-h-44 border-b border-r border-border/60 bg-card/70 p-3 last:border-r-0"
+                  className="min-h-44 border-b border-r border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))] p-3 last:border-r-0"
                 >
                   <div className="mb-3 flex items-center justify-between">
                     <span
@@ -53,7 +53,7 @@ export function ContentMonthView({ items, range }: ContentMonthViewProps) {
                         "inline-flex size-9 items-center justify-center rounded-full text-sm font-medium",
                         isToday(day)
                           ? "bg-primary text-primary-foreground"
-                          : "bg-background/70 text-foreground"
+                          : "bg-white text-foreground"
                       )}
                     >
                       {format(day, "d")}

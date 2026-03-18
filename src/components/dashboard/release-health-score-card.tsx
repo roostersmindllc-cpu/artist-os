@@ -55,32 +55,34 @@ export function ReleaseHealthScoreCard({
   insight
 }: ReleaseHealthScoreCardProps) {
   return (
-    <Card className="overflow-hidden border-border/70 bg-card/95 shadow-sm">
-      <CardHeader className="border-b border-border/60">
+    <Card className="overflow-hidden border-2 border-black/10 bg-card shadow-[0_18px_34px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/10 bg-black p-4 text-white sm:p-6">
         <div className="flex items-start gap-3">
-          <span className="inline-flex size-11 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary shadow-sm">
+          <span className="inline-flex size-11 items-center justify-center rounded-2xl border border-primary/25 bg-primary/12 text-primary shadow-sm">
             <Activity className="size-5" />
           </span>
           <div className="space-y-1">
-            <CardTitle>Release health score</CardTitle>
-            <CardDescription className="max-w-2xl leading-6">
+            <CardTitle className="font-heading text-3xl font-semibold leading-none text-white sm:text-4xl">
+              Release health score
+            </CardTitle>
+            <CardDescription className="max-w-2xl leading-6 text-white/72">
               A readiness score for the next release, based on the launch signals
               already tracked in Artist OS.
             </CardDescription>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-6">
         {insight ? (
-          <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)]">
-            <div className="rounded-[28px] border border-border/70 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.12),transparent_40%),rgba(255,255,255,0.02)] p-5">
+          <div className="grid gap-5 xl:grid-cols-[280px_minmax(0,1fr)] xl:gap-6">
+            <div className="rounded-[1.55rem] border border-black/12 bg-[linear-gradient(180deg,rgba(190,89,255,0.12),rgba(255,255,255,0.98))] p-4 sm:rounded-[1.9rem] sm:p-5">
               <Badge
                 variant="outline"
                 className={cn("rounded-full px-3 py-1 font-semibold", getScoreBadgeClasses(insight.score))}
               >
                 {insight.scoreLabel}
               </Badge>
-              <p className="mt-4 font-heading text-5xl font-semibold tracking-tight">
+              <p className="mt-4 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
                 {insight.score}%
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -94,13 +96,13 @@ export function ReleaseHealthScoreCard({
               </div>
 
               <div className="mt-5 space-y-3 text-sm">
-                <div className="rounded-2xl border border-border/60 bg-background/65 p-3">
+                <div className="rounded-2xl border border-black/10 bg-white p-3">
                   <p className="font-medium">{insight.releaseTitle}</p>
                   <p className="mt-1 text-muted-foreground">
                     {releaseTypeLabels[insight.releaseType]}
                   </p>
                 </div>
-                <div className="rounded-2xl border border-border/60 bg-background/65 p-3 text-muted-foreground">
+                <div className="rounded-2xl border border-black/10 bg-white p-3 text-muted-foreground">
                   <div className="flex items-center gap-2 text-foreground">
                     <CalendarClock className="size-4 text-primary" />
                     <span className="font-medium">{formatDate(insight.releaseDate)}</span>
@@ -115,7 +117,7 @@ export function ReleaseHealthScoreCard({
             </div>
 
             <div className="space-y-5">
-              <div className="rounded-3xl border border-border/70 bg-background/45 p-4">
+              <div className="rounded-[1.45rem] border border-black/10 bg-background p-4 sm:rounded-[1.8rem]">
                 <p className="text-sm leading-7 text-foreground">{insight.summary}</p>
               </div>
 
@@ -123,7 +125,7 @@ export function ReleaseHealthScoreCard({
                 {insight.checklist.map((item) => (
                   <div
                     key={item.key}
-                    className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background/45 p-4"
+                    className="flex items-start gap-3 rounded-2xl border border-black/10 bg-background p-4"
                   >
                     <span
                       className={cn(

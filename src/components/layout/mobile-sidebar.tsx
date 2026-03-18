@@ -16,7 +16,7 @@ export function MobileSidebar() {
       <Button
         variant="outline"
         size="sm"
-        className="xl:hidden"
+        className="rounded-xl border-white/15 bg-white/8 text-white shadow-none hover:bg-white/12 xl:hidden"
         aria-expanded={isOpen}
         aria-controls="mobile-sidebar"
         onClick={() => setIsOpen(true)}
@@ -42,7 +42,7 @@ export function MobileSidebar() {
         <div
           id="mobile-sidebar"
           className={cn(
-            "absolute inset-y-3 left-3 flex w-[min(22rem,calc(100vw-1.5rem))] flex-col rounded-[2rem] border border-border/70 bg-popover/95 p-5 shadow-2xl transition-transform duration-200",
+            "absolute inset-y-2 left-2 flex w-[min(22rem,calc(100vw-1rem))] flex-col rounded-[1.6rem] border border-white/12 bg-[#0c0c0c]/96 p-4 text-white shadow-2xl transition-transform duration-200 sm:inset-y-3 sm:left-3 sm:w-[min(22rem,calc(100vw-1.5rem))] sm:rounded-[2rem] sm:p-5",
             isOpen ? "translate-x-0" : "-translate-x-[110%]"
           )}
           role="dialog"
@@ -56,12 +56,18 @@ export function MobileSidebar() {
                 withTagline
                 className="items-start"
                 markClassName="h-12 w-12"
+                labelClassName="text-white [&_p]:text-white/62 [&_span:first-child]:text-white"
               />
               <h2 className="font-heading text-2xl font-semibold">
                 Release ops, content, and insight in one place.
               </h2>
             </div>
-            <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-white hover:bg-white/10 hover:text-white"
+              onClick={() => setIsOpen(false)}
+            >
               <X className="size-4" />
               Close
             </Button>

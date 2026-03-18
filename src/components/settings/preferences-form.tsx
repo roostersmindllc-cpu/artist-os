@@ -69,18 +69,21 @@ export function PreferencesForm({ initialValues }: PreferencesFormProps) {
   });
 
   return (
-    <Card className="border-border/70 bg-card/90 shadow-sm">
-      <CardHeader>
-        <CardTitle>Preferences</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">Preferences</CardTitle>
+        <CardDescription className="text-white/68">
           Save lightweight workspace preferences without introducing a new
           database migration for the MVP.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form className="space-y-4" onSubmit={onSubmit}>
+      <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
+        <form className="space-y-5" onSubmit={onSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="settings-default-analytics-source">
+            <Label
+              htmlFor="settings-default-analytics-source"
+              className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+            >
               Default analytics source
             </Label>
             <Select
@@ -102,7 +105,10 @@ export function PreferencesForm({ initialValues }: PreferencesFormProps) {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="settings-default-content-view">
+              <Label
+                htmlFor="settings-default-content-view"
+                className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+              >
                 Default content view
               </Label>
               <Select
@@ -123,7 +129,9 @@ export function PreferencesForm({ initialValues }: PreferencesFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="settings-week-starts-on">Week starts on</Label>
+              <Label htmlFor="settings-week-starts-on" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Week starts on
+              </Label>
               <Select
                 id="settings-week-starts-on"
                 {...form.register("weekStartsOn")}
@@ -143,7 +151,7 @@ export function PreferencesForm({ initialValues }: PreferencesFormProps) {
             </div>
           </div>
           <Button
-            className="w-full md:w-auto"
+            className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95 md:w-auto md:px-6"
             type="submit"
             disabled={isPending}
           >

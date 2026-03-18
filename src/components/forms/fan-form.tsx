@@ -99,9 +99,11 @@ export function FanForm({
   });
 
   const formContent = (
-    <form className="space-y-4" onSubmit={onSubmit}>
+    <form className="space-y-5" onSubmit={onSubmit}>
       <div className="space-y-2">
-        <Label htmlFor="fan-name">Name</Label>
+        <Label htmlFor="fan-name" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Name
+        </Label>
         <Input
           id="fan-name"
           placeholder="Maya Ellis"
@@ -114,7 +116,9 @@ export function FanForm({
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="fan-email">Email</Label>
+          <Label htmlFor="fan-email" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Email
+          </Label>
           <Input id="fan-email" type="email" {...form.register("email")} />
           <FieldHint>
             Optional, but helpful for future segmentation and direct outreach.
@@ -122,7 +126,9 @@ export function FanForm({
           <FieldError message={form.formState.errors.email?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="fan-handle">Handle</Label>
+          <Label htmlFor="fan-handle" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Handle
+          </Label>
           <Input
             id="fan-handle"
             placeholder="@artistfriend"
@@ -136,7 +142,9 @@ export function FanForm({
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="fan-city">City</Label>
+          <Label htmlFor="fan-city" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            City
+          </Label>
           <Input id="fan-city" {...form.register("city")} />
           <FieldHint>
             City becomes useful quickly for local outreach and market planning.
@@ -144,7 +152,9 @@ export function FanForm({
           <FieldError message={form.formState.errors.city?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="fan-engagement">Engagement score</Label>
+          <Label htmlFor="fan-engagement" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Engagement score
+          </Label>
           <Input
             id="fan-engagement"
             type="number"
@@ -159,7 +169,9 @@ export function FanForm({
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="fan-tags">Tags</Label>
+        <Label htmlFor="fan-tags" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Tags
+        </Label>
         <Controller
           control={form.control}
           name="tags"
@@ -180,14 +192,20 @@ export function FanForm({
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="fan-notes">Notes</Label>
+        <Label htmlFor="fan-notes" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Notes
+        </Label>
         <Textarea id="fan-notes" rows={5} {...form.register("notes")} />
         <FieldHint>
           Capture context that makes the next interaction more personal and useful.
         </FieldHint>
         <FieldError message={form.formState.errors.notes?.message} />
       </div>
-      <Button className="w-full" type="submit" disabled={isPending}>
+      <Button
+        className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95"
+        type="submit"
+        disabled={isPending}
+      >
         {mode === "edit" ? (
           <Save className="size-4" />
         ) : (
@@ -209,16 +227,20 @@ export function FanForm({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{mode === "edit" ? "Edit fan" : "Add fan"}</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">
+          {mode === "edit" ? "Edit fan" : "Add fan"}
+        </CardTitle>
+        <CardDescription className="text-white/68">
           {mode === "edit"
             ? "Keep the relationship record current with better tags, engagement scoring, and context notes."
             : "Store a lightweight relationship record with clean tags, searchable contact info, and an engagement score."}
         </CardDescription>
       </CardHeader>
-      <CardContent>{formContent}</CardContent>
+      <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
+        {formContent}
+      </CardContent>
     </Card>
   );
 }

@@ -44,19 +44,19 @@ export function TagInput({
   return (
     <div
       className={cn(
-        "flex min-h-10 flex-wrap items-center gap-2 rounded-xl border border-input bg-background/80 px-3 py-2 shadow-sm",
+        "flex min-h-12 flex-wrap items-center gap-2 rounded-2xl border-2 border-black/12 bg-white px-4 py-3 shadow-none",
         disabled ? "cursor-not-allowed opacity-60" : ""
       )}
     >
       {value.map((tag) => (
         <span
           key={tag}
-          className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary"
+          className="inline-flex items-center gap-1 rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] px-3 py-1.5 text-xs font-medium text-white"
         >
           {tag}
           <button
             type="button"
-            className="inline-flex size-4 items-center justify-center rounded-full text-primary/80 hover:bg-primary/15 hover:text-primary"
+            className="inline-flex size-4 items-center justify-center rounded-full text-white/80 hover:bg-white/12 hover:text-white"
             onClick={() => removeTag(tag)}
             disabled={disabled}
             aria-label={`Remove ${tag}`}

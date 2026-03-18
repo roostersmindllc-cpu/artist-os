@@ -98,10 +98,12 @@ export function AnalyticsForm({
   });
 
   const formContent = (
-    <form className="space-y-4" onSubmit={onSubmit}>
+    <form className="space-y-5" onSubmit={onSubmit}>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="metric-recorded-at">Recorded date</Label>
+          <Label htmlFor="metric-recorded-at" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Recorded date
+          </Label>
           <Input
             id="metric-recorded-at"
             type="date"
@@ -113,7 +115,9 @@ export function AnalyticsForm({
           <FieldError message={form.formState.errors.recordedAt?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="metric-source">Source</Label>
+          <Label htmlFor="metric-source" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Source
+          </Label>
           <Select id="metric-source" {...form.register("source")}>
             {metricSourceValues.map((value) => (
               <option key={value} value={value}>
@@ -129,7 +133,9 @@ export function AnalyticsForm({
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="metric-name">Metric name</Label>
+          <Label htmlFor="metric-name" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Metric name
+          </Label>
           <Select id="metric-name" {...form.register("metricName")}>
             {metricNameValues.map((value) => (
               <option key={value} value={value}>
@@ -143,7 +149,9 @@ export function AnalyticsForm({
           <FieldError message={form.formState.errors.metricName?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="metric-value">Metric value</Label>
+          <Label htmlFor="metric-value" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Metric value
+          </Label>
           <Input
             id="metric-value"
             type="number"
@@ -158,7 +166,9 @@ export function AnalyticsForm({
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="metric-metadata">Metadata (JSON optional)</Label>
+        <Label htmlFor="metric-metadata" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Metadata (JSON optional)
+        </Label>
         <Textarea
           id="metric-metadata"
           rows={4}
@@ -170,7 +180,11 @@ export function AnalyticsForm({
         </FieldHint>
         <FieldError message={form.formState.errors.metadata?.message} />
       </div>
-      <Button className="w-full" type="submit" disabled={isPending}>
+      <Button
+        className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95"
+        type="submit"
+        disabled={isPending}
+      >
         {isPending ? "Saving metric..." : "Add metric snapshot"}
       </Button>
     </form>
@@ -181,14 +195,16 @@ export function AnalyticsForm({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Add metric snapshot</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">Add metric snapshot</CardTitle>
+        <CardDescription className="text-white/68">
           Record one metric row at a time so imports and manual entry share the same structure.
         </CardDescription>
       </CardHeader>
-      <CardContent>{formContent}</CardContent>
+      <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
+        {formContent}
+      </CardContent>
     </Card>
   );
 }

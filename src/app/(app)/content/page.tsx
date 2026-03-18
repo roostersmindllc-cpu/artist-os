@@ -163,13 +163,13 @@ export default async function ContentPage({ searchParams }: ContentPageProps) {
             <ContentForm options={planner.options} />
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Planner guidance</CardTitle>
+          <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+            <CardHeader className="border-b border-black/12 bg-black text-white">
+              <CardTitle className="text-4xl text-white">Planner guidance</CardTitle>
             </CardHeader>
-            <CardContent className="text-muted-foreground space-y-4 text-sm leading-6">
+            <CardContent className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))] text-sm leading-6 text-muted-foreground">
               <div className="flex items-start gap-3">
-                <span className="border-primary/15 bg-primary/10 text-primary inline-flex size-9 items-center justify-center rounded-2xl border">
+                <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-black/12 bg-black text-white">
                   <CalendarDays className="size-4" />
                 </span>
                 <p>
@@ -178,7 +178,7 @@ export default async function ContentPage({ searchParams }: ContentPageProps) {
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <span className="border-primary/15 bg-primary/10 text-primary inline-flex size-9 items-center justify-center rounded-2xl border">
+                <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-black/12 bg-black text-white">
                   <Megaphone className="size-4" />
                 </span>
                 <p>
@@ -187,7 +187,7 @@ export default async function ContentPage({ searchParams }: ContentPageProps) {
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <span className="border-primary/15 bg-primary/10 text-primary inline-flex size-9 items-center justify-center rounded-2xl border">
+                <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-black/12 bg-black text-white">
                   <Music4 className="size-4" />
                 </span>
                 <p>
@@ -196,7 +196,7 @@ export default async function ContentPage({ searchParams }: ContentPageProps) {
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <span className="border-primary/15 bg-primary/10 text-primary inline-flex size-9 items-center justify-center rounded-2xl border">
+                <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-black/12 bg-black text-white">
                   <Clapperboard className="size-4" />
                 </span>
                 <p>
@@ -205,7 +205,7 @@ export default async function ContentPage({ searchParams }: ContentPageProps) {
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <span className="border-primary/15 bg-primary/10 text-primary inline-flex size-9 items-center justify-center rounded-2xl border">
+                <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-black/12 bg-black text-white">
                   <Link2 className="size-4" />
                 </span>
                 <p>

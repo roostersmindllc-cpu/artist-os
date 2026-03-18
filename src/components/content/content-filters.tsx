@@ -35,14 +35,29 @@ export function ContentFilters({
   options
 }: ContentFiltersProps) {
   return (
-    <Card className="border-border/70 bg-card/85">
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
       <CardContent className="p-5">
+        <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
+              Planner filters
+            </p>
+            <h2 className="mt-2 font-heading text-3xl font-semibold leading-none">
+              Refine the publishing board
+            </h2>
+          </div>
+          <span className="rounded-full border border-black/12 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            {view} view
+          </span>
+        </div>
         <form className="grid gap-4 lg:grid-cols-4">
           <input type="hidden" name="view" value={view} />
           <input type="hidden" name="date" value={date} />
 
           <div className="space-y-2">
-            <Label htmlFor="content-filter-platform">Platform</Label>
+            <Label htmlFor="content-filter-platform" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Platform
+            </Label>
             <Select
               id="content-filter-platform"
               name="platform"
@@ -58,7 +73,9 @@ export function ContentFilters({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content-filter-status">Status</Label>
+            <Label htmlFor="content-filter-status" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Status
+            </Label>
             <Select
               id="content-filter-status"
               name="status"
@@ -74,7 +91,9 @@ export function ContentFilters({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content-filter-campaign">Campaign</Label>
+            <Label htmlFor="content-filter-campaign" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Campaign
+            </Label>
             <Select
               id="content-filter-campaign"
               name="campaignId"
@@ -90,7 +109,9 @@ export function ContentFilters({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content-filter-release">Release</Label>
+            <Label htmlFor="content-filter-release" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Release
+            </Label>
             <Select
               id="content-filter-release"
               name="releaseId"
@@ -106,7 +127,7 @@ export function ContentFilters({
           </div>
 
           <div className="flex flex-wrap gap-2 lg:col-span-4">
-            <button className={cn(buttonVariants(), "rounded-xl")} type="submit">
+            <button className={cn(buttonVariants(), "h-12 rounded-full px-5")} type="submit">
               Apply filters
             </button>
             <Link
@@ -114,7 +135,7 @@ export function ContentFilters({
                 view,
                 date
               })}
-              className={cn(buttonVariants({ variant: "outline" }), "rounded-xl")}
+              className={cn(buttonVariants({ variant: "outline" }), "h-12 rounded-full border-black/12 bg-white px-5")}
             >
               <FilterX className="size-4" />
               Clear filters

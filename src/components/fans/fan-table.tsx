@@ -25,7 +25,7 @@ export function FanTable({ fans }: FanTableProps) {
         {fans.map((fan) => (
           <article
             key={fan.id}
-            className="border-border/70 bg-background/45 rounded-2xl border p-4"
+            className="rounded-[1.7rem] border-2 border-black/12 bg-white p-4 shadow-[0_10px_24px_rgba(0,0,0,0.04)]"
           >
             <div className="flex items-start justify-between gap-3">
               <div className="space-y-1">

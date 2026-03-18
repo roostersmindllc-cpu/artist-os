@@ -22,11 +22,26 @@ type ReleaseFiltersProps = {
 
 export function ReleaseFilters({ filters, resultCount }: ReleaseFiltersProps) {
   return (
-    <Card className="border-border/70 bg-card/85">
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
       <CardContent className="p-5">
+        <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
+              Catalog board
+            </p>
+            <h2 className="mt-2 font-heading text-3xl font-semibold leading-none">
+              Slice the release lane
+            </h2>
+          </div>
+          <span className="rounded-full border border-black/12 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            {resultCount} result{resultCount === 1 ? "" : "s"}
+          </span>
+        </div>
         <form className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto_auto]">
           <div className="space-y-2">
-            <Label htmlFor="release-filter-status">Status</Label>
+            <Label htmlFor="release-filter-status" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Status
+            </Label>
             <Select id="release-filter-status" name="status" defaultValue={filters.status ?? ""}>
               <option value="">All statuses</option>
               {releaseStatusValues.map((value) => (
@@ -37,7 +52,9 @@ export function ReleaseFilters({ filters, resultCount }: ReleaseFiltersProps) {
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="release-filter-type">Type</Label>
+            <Label htmlFor="release-filter-type" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Type
+            </Label>
             <Select id="release-filter-type" name="type" defaultValue={filters.type ?? ""}>
               <option value="">All types</option>
               {releaseTypeValues.map((value) => (
@@ -48,7 +65,7 @@ export function ReleaseFilters({ filters, resultCount }: ReleaseFiltersProps) {
             </Select>
           </div>
           <div className="flex items-end gap-2">
-            <Button type="submit" className="w-full sm:w-auto">
+            <Button type="submit" className="h-12 w-full rounded-full px-5 sm:w-auto">
               <Filter className="size-4" />
               Apply filters
             </Button>
@@ -56,7 +73,7 @@ export function ReleaseFilters({ filters, resultCount }: ReleaseFiltersProps) {
               href={"/releases" as Route}
               className={cn(
                 buttonVariants({ variant: "outline" }),
-                "w-full rounded-xl sm:w-auto"
+                "h-12 w-full rounded-full border-black/12 bg-white px-5 sm:w-auto"
               )}
             >
               Clear
@@ -65,7 +82,7 @@ export function ReleaseFilters({ filters, resultCount }: ReleaseFiltersProps) {
           <div className="flex items-end justify-start lg:justify-end">
             <Link
               href={"/releases/new" as Route}
-              className={cn(buttonVariants(), "w-full rounded-xl sm:w-auto")}
+              className={cn(buttonVariants(), "h-12 w-full rounded-full px-5 sm:w-auto")}
             >
               <Plus className="size-4" />
               New release

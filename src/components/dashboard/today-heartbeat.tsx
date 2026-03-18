@@ -107,19 +107,22 @@ export function TodayHeartbeat({
   const primaryFocusHref = getPrimaryFocusHref({ counts, nextRelease });
 
   return (
-    <Card className="overflow-hidden border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.16),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(14,165,233,0.12),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.02),rgba(255,255,255,0))] shadow-sm">
-      <CardContent className="p-6 lg:p-8">
+    <Card className="overflow-hidden border-2 border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(246,239,231,0.92))] shadow-[0_18px_34px_rgba(0,0,0,0.08)]">
+      <CardContent className="p-4 sm:p-6 lg:p-8">
         <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-6">
             <div className="space-y-3">
-              <Badge variant="secondary" className="rounded-full px-3 py-1">
+              <Badge
+                variant="outline"
+                className="rounded-full border-primary/35 bg-primary/12 px-3 py-1 text-foreground"
+              >
                 Today&apos;s heartbeat
               </Badge>
               <div className="space-y-3">
-                <h2 className="font-heading text-3xl font-semibold tracking-tight lg:text-4xl">
+                <h2 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                   What should {artistName} do today?
                 </h2>
-                <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+                <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base sm:leading-8">
                   Start with {pluralize(counts.tasksDueToday, "task")} due today, keep{" "}
                   {pluralize(counts.campaignsRunningNow, "campaign")} live, and move{" "}
                   {pluralize(counts.upcomingContent, "piece", "pieces")} of upcoming content
@@ -128,43 +131,43 @@ export function TodayHeartbeat({
               </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-              <div className="rounded-3xl border border-border/70 bg-background/55 p-4">
+            <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+              <div className="rounded-[1.35rem] border border-black/12 bg-white p-4 sm:rounded-[1.7rem]">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Tasks today
                 </p>
-                <p className="mt-2 font-heading text-3xl font-semibold">
+                <p className="mt-2 font-heading text-3xl font-semibold sm:text-4xl">
                   {counts.tasksDueToday}
                 </p>
               </div>
-              <div className="rounded-3xl border border-border/70 bg-background/55 p-4">
+              <div className="rounded-[1.35rem] border border-black/12 bg-white p-4 sm:rounded-[1.7rem]">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Upcoming content
                 </p>
-                <p className="mt-2 font-heading text-3xl font-semibold">
+                <p className="mt-2 font-heading text-3xl font-semibold sm:text-4xl">
                   {counts.upcomingContent}
                 </p>
               </div>
-              <div className="rounded-3xl border border-border/70 bg-background/55 p-4">
+              <div className="rounded-[1.35rem] border border-black/12 bg-white p-4 sm:rounded-[1.7rem]">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Campaigns live
                 </p>
-                <p className="mt-2 font-heading text-3xl font-semibold">
+                <p className="mt-2 font-heading text-3xl font-semibold sm:text-4xl">
                   {counts.campaignsRunningNow}
                 </p>
               </div>
-              <div className="rounded-3xl border border-border/70 bg-background/55 p-4">
+              <div className="rounded-[1.35rem] border border-black/12 bg-white p-4 sm:rounded-[1.7rem]">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Releases in 30d
                 </p>
-                <p className="mt-2 font-heading text-3xl font-semibold">
+                <p className="mt-2 font-heading text-3xl font-semibold sm:text-4xl">
                   {counts.releasesWithin30Days}
                 </p>
               </div>
             </div>
 
             {nextRelease?.releaseDate ? (
-              <div className="flex flex-wrap items-center gap-3 rounded-3xl border border-border/70 bg-background/55 p-4 text-sm text-muted-foreground">
+              <div className="grid gap-2 rounded-[1.45rem] border border-black/12 bg-white p-4 text-sm text-muted-foreground sm:flex sm:flex-wrap sm:items-center sm:gap-3 sm:rounded-[1.8rem]">
                 <span className="inline-flex size-10 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary">
                   <Disc3 className="size-4" />
                 </span>
@@ -177,7 +180,7 @@ export function TodayHeartbeat({
             ) : null}
           </div>
 
-          <div className="rounded-[28px] border border-border/70 bg-background/60 p-5 shadow-sm">
+          <div className="rounded-[1.55rem] border border-black/12 bg-[linear-gradient(180deg,rgba(28,216,242,0.12),rgba(255,255,255,0.98))] p-4 shadow-sm sm:rounded-[1.9rem] sm:p-5">
             <div className="flex items-center gap-3">
               <span className="inline-flex size-10 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary">
                 <Sparkles className="size-4" />

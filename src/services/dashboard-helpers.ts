@@ -12,6 +12,7 @@ import type {
 import {
   differenceInCalendarDays,
   endOfDay,
+  format,
   startOfDay,
   subDays
 } from "date-fns";
@@ -105,6 +106,23 @@ export type DashboardPerformanceItem = {
   source: MetricSource | null;
   sourceLabel: string | null;
   recordedAt: Date | null;
+};
+
+export type DashboardHeroChartPoint = {
+  label: string;
+  value: number;
+  recordedAt: Date;
+};
+
+export type DashboardHeroChart = {
+  label: string;
+  metricName: DashboardPerformanceMetricName;
+  source: MetricSource | null;
+  sourceLabel: string | null;
+  latestValue: number | null;
+  change: number | null;
+  recordedAt: Date | null;
+  points: DashboardHeroChartPoint[];
 };
 
 type DashboardReleaseHealthSource = {
@@ -407,6 +425,71 @@ export function buildDashboardPerformanceSnapshot(
       ? buildRatePerformanceItem(primarySeries.snapshots, config)
       : buildCumulativePerformanceItem(primarySeries.snapshots, config);
   });
+}
+
+const dashboardHeroMetricConfigs = [
+  {
+    metricName: "STREAMS",
+    label: "Streams"
+  },
+  {
+    metricName: "FOLLOWERS",
+    label: "Followers"
+  },
+  {
+    metricName: "ENGAGEMENT_RATE",
+    label: "Engagement"
+  }
+] as const;
+
+export function buildDashboardHeroChart(
+  snapshots: DashboardMetricSnapshot[]
+): DashboardHeroChart {
+  for (const config of dashboardHeroMetricConfigs) {
+    const primarySeries = selectPrimaryMetricSeries(snapshots, config.metricName);
+
+    if (!primarySeries) {
+      continue;
+    }
+
+    const latestSnapshot = primarySeries.snapshots.at(-1) ?? null;
+    const previousSnapshot =
+      primarySeries.snapshots.length > 1
+        ? primarySeries.snapshots.at(-2) ?? null
+        : null;
+
+    return {
+      label: config.label,
+      metricName: config.metricName,
+      source: primarySeries.source,
+      sourceLabel: metricSourceLabels[primarySeries.source],
+      latestValue: latestSnapshot?.metricValue ?? null,
+      change:
+        latestSnapshot && previousSnapshot
+          ? calculatePercentageChange(
+              latestSnapshot.metricValue,
+              previousSnapshot.metricValue
+            )
+          : null,
+      recordedAt: latestSnapshot?.recordedAt ?? null,
+      points: primarySeries.snapshots.slice(-8).map((snapshot) => ({
+        label: format(snapshot.recordedAt, "MMM d"),
+        value: snapshot.metricValue,
+        recordedAt: snapshot.recordedAt
+      }))
+    };
+  }
+
+  return {
+    label: "Streams",
+    metricName: "STREAMS",
+    source: null,
+    sourceLabel: null,
+    latestValue: null,
+    change: null,
+    recordedAt: null,
+    points: []
+  };
 }
 
 function getReleaseHealthScoreLabel(score: number) {

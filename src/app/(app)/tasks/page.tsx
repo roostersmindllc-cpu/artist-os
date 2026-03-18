@@ -19,6 +19,14 @@ export default async function TasksPage() {
       title="Tasks"
       description="Tasks stay generic, but can point back to the release system through related type and record ID."
       eyebrow="Execution flow"
+      actions={
+        <Link
+          href="#task-composer"
+          className={cn(buttonVariants(), "rounded-full px-5")}
+        >
+          New task
+        </Link>
+      }
     >
       <div className="grid gap-6 xl:grid-cols-[420px_1fr]">
         <TaskForm />

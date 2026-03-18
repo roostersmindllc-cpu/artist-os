@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
 import { ArtistOsLogo } from "@/components/brand/artist-os-logo";
-import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { TopNav } from "@/components/layout/top-nav";
 import { WorkspaceExperienceProvider } from "@/components/layout/workspace-experience";
 import type { ContentPlannerOptionsDto } from "@/services/content-types";
@@ -22,46 +21,42 @@ export function AppShell({
 }: AppShellProps) {
   return (
     <WorkspaceExperienceProvider contentOptions={quickAddContentOptions}>
-      <div className="min-h-screen">
-        <div className="mx-auto grid min-h-screen max-w-[1680px] xl:grid-cols-[320px_1fr]">
-          <aside className="sticky top-0 hidden h-screen border-r border-border/70 bg-[radial-gradient(circle_at_top_left,rgba(233,76,255,0.08),transparent_30%),radial-gradient(circle_at_top_right,rgba(45,212,191,0.12),transparent_26%),rgba(255,255,255,0.5)] px-6 py-8 backdrop-blur-xl xl:flex xl:flex-col dark:bg-[radial-gradient(circle_at_top_left,rgba(233,76,255,0.08),transparent_30%),radial-gradient(circle_at_top_right,rgba(45,212,191,0.1),transparent_26%),rgba(9,20,34,0.72)]">
-            <div className="space-y-5">
-              <ArtistOsLogo withTagline className="items-start" markClassName="h-16 w-16" />
-              <div className="space-y-3">
-                <h2 className="font-heading text-3xl font-semibold leading-tight">
-                  The operating system for release moments that need real follow-through.
-                </h2>
-                <p className="text-sm leading-6 text-muted-foreground">
-                  Plan releases, content, fans, analytics, and daily execution in one
-                  command layer, then keep the dashboard focused on what matters next.
+      <div className="min-h-screen bg-transparent text-white">
+        <div className="mx-auto flex min-h-screen max-w-[1680px] flex-col px-2 py-2 sm:px-4 sm:py-3 xl:px-6">
+          <div className="hidden items-center justify-between px-2 pb-4 xl:flex">
+            <div className="flex items-center gap-4">
+              <ArtistOsLogo
+                withTagline
+                compact
+                className="items-start gap-3"
+                markClassName="h-16 w-16"
+                labelClassName="hidden"
+              />
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-heading text-4xl font-semibold text-white">Artist</span>
+                  <span className="font-heading text-4xl font-semibold text-primary">.OS</span>
+                </div>
+                <p className="text-[11px] uppercase tracking-[0.28em] text-white/64">
+                  Release ops, content, fans, and insight in one system
                 </p>
               </div>
             </div>
-            <div className="mt-10">
-              <SidebarNav />
+
+            <div className="max-w-sm rounded-[1.6rem] border border-primary/45 bg-white/8 px-5 py-4 backdrop-blur-xl">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
+                Artist command layer
+              </p>
+              <p className="mt-2 text-sm leading-6 text-white/76">
+                Keep the routes and workflow you already built, but frame them like a
+                focused release board with stronger contrast and louder hierarchy.
+              </p>
             </div>
-            <div className="mt-auto space-y-4">
-              <div className="rounded-[1.75rem] border border-border/70 bg-background/55 p-5 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
-                  Workspace rhythm
-                </p>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  Use quick add to capture new work fast, then let the dashboard turn it into a daily priority view.
-                </p>
-              </div>
-              <div className="rounded-[1.75rem] border border-border/70 bg-background/45 p-5 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
-                  Keyboard
-                </p>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  Press <span className="font-semibold text-foreground">?</span> for shortcuts, <span className="font-semibold text-foreground">G</span> to navigate, and <span className="font-semibold text-foreground">N</span> to quick add.
-                </p>
-              </div>
-            </div>
-          </aside>
-          <div className="flex min-h-screen flex-col">
+          </div>
+
+          <div className="flex min-h-[calc(100vh-1rem)] flex-col overflow-hidden rounded-[1.5rem] border border-primary/70 bg-card/98 shadow-[0_24px_80px_rgba(0,0,0,0.34)] sm:min-h-[calc(100vh-1.5rem)] sm:rounded-[2rem]">
             <TopNav name={user.name} email={user.email} />
-            <main className="flex-1 px-4 py-6 pb-24 lg:pb-8 xl:px-8 xl:py-8">
+            <main className="flex-1 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(249,245,238,0.97))] px-3 py-4 pb-24 text-foreground sm:px-4 sm:py-6 lg:pb-8 xl:px-8 xl:py-8">
               {children}
             </main>
           </div>

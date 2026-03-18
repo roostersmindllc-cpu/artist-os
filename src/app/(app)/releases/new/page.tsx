@@ -24,11 +24,11 @@ export default function NewReleasePage() {
     >
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <ReleaseForm />
-        <Card>
-          <CardHeader>
-            <CardTitle>Starter automation</CardTitle>
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="text-4xl text-white">Starter automation</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm leading-6 text-muted-foreground">
+          <CardContent className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))] text-sm leading-6 text-muted-foreground">
             <p>
               When you create a release, Artist OS now auto-generates a linked campaign,
               three draft content items, and starter tasks for playlist outreach, fan

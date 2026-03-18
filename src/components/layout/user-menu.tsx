@@ -15,8 +15,8 @@ type UserMenuProps = {
 export function UserMenu({ name, email }: UserMenuProps) {
   return (
     <details className="group relative">
-      <summary className="flex list-none cursor-pointer items-center gap-3 rounded-2xl border border-border/70 bg-card/85 px-3 py-2 shadow-sm transition-colors hover:bg-card [&::-webkit-details-marker]:hidden">
-        <div className="flex size-10 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
+      <summary className="flex list-none cursor-pointer items-center gap-2 rounded-[1rem] border border-border/70 bg-card/85 px-2.5 py-2 shadow-sm transition-colors hover:bg-card sm:gap-3 sm:rounded-2xl sm:px-3 [&::-webkit-details-marker]:hidden">
+        <div className="flex size-9 items-center justify-center rounded-[1rem] bg-secondary text-secondary-foreground sm:size-10 sm:rounded-2xl">
           {getInitials(name)}
         </div>
         <div className="hidden text-left sm:block">
@@ -25,7 +25,7 @@ export function UserMenu({ name, email }: UserMenuProps) {
         </div>
         <ChevronDown className="size-4 text-muted-foreground transition-transform group-open:rotate-180" />
       </summary>
-      <div className="absolute right-0 z-30 mt-3 w-72 rounded-2xl border border-border/70 bg-popover/95 p-2 shadow-2xl backdrop-blur">
+      <div className="absolute right-0 z-30 mt-3 w-[min(18rem,calc(100vw-1rem))] rounded-2xl border border-border/70 bg-popover/95 p-2 shadow-2xl backdrop-blur sm:w-72">
         <div className="rounded-2xl border border-border/60 bg-background/55 px-4 py-3">
           <p className="font-medium">{name ?? "Artist"}</p>
           <p className="text-sm text-muted-foreground">{email ?? "Signed in"}</p>

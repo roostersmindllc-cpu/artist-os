@@ -76,19 +76,21 @@ export function ArtistProfileSettingsForm({
     }) ?? [];
 
   return (
-    <Card className="border-border/70 bg-card/90 shadow-sm">
-      <CardHeader>
-        <CardTitle>Artist profile settings</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">Artist profile settings</CardTitle>
+        <CardDescription className="text-white/68">
           Keep the artist identity, bio, goals, audience size, and channel mix
           aligned with the seeded workspace.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form className="space-y-4" onSubmit={onSubmit}>
+      <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
+        <form className="space-y-5" onSubmit={onSubmit}>
           <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
             <div className="space-y-2">
-              <Label htmlFor="artist-settings-name">Artist name</Label>
+              <Label htmlFor="artist-settings-name" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Artist name
+              </Label>
               <Input
                 id="artist-settings-name"
                 {...form.register("artistName")}
@@ -100,7 +102,9 @@ export function ArtistProfileSettingsForm({
               <FieldError message={form.formState.errors.artistName?.message} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="artist-settings-audience-size">Audience size</Label>
+              <Label htmlFor="artist-settings-audience-size" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Audience size
+              </Label>
               <Input
                 id="artist-settings-audience-size"
                 inputMode="numeric"
@@ -115,7 +119,9 @@ export function ArtistProfileSettingsForm({
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="artist-settings-genre">Genre</Label>
+              <Label htmlFor="artist-settings-genre" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Genre
+              </Label>
               <Input id="artist-settings-genre" {...form.register("genre")} />
               <FieldHint>
                 Keep this broad and audience-facing rather than overly granular.
@@ -123,7 +129,10 @@ export function ArtistProfileSettingsForm({
               <FieldError message={form.formState.errors.genre?.message} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="artist-settings-goal">
+              <Label
+                htmlFor="artist-settings-goal"
+                className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+              >
                 Primary goal for the next 90 days
               </Label>
               <Textarea
@@ -138,7 +147,9 @@ export function ArtistProfileSettingsForm({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="artist-settings-bio">Short bio</Label>
+            <Label htmlFor="artist-settings-bio" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Short bio
+            </Label>
             <Textarea
               id="artist-settings-bio"
               rows={4}
@@ -150,7 +161,9 @@ export function ArtistProfileSettingsForm({
             <FieldError message={form.formState.errors.bio?.message} />
           </div>
           <div className="space-y-2">
-            <Label>Social platforms</Label>
+            <Label className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Social platforms
+            </Label>
             <SelectableChipGroup
               ariaLabel="Social platforms"
               options={socialPlatformValues.map((value) => ({
@@ -176,7 +189,9 @@ export function ArtistProfileSettingsForm({
             <FieldError message={form.formState.errors.socialPlatforms?.message} />
           </div>
           <div className="space-y-2">
-            <Label>Platforms used</Label>
+            <Label className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Platforms used
+            </Label>
             <SelectableChipGroup
               ariaLabel="Platforms used"
               options={onboardingPlatformValues.map((value) => ({
@@ -202,7 +217,7 @@ export function ArtistProfileSettingsForm({
             <FieldError message={form.formState.errors.platformsUsed?.message} />
           </div>
           <Button
-            className="w-full md:w-auto"
+            className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95 md:w-auto md:px-6"
             type="submit"
             disabled={isPending}
           >

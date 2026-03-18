@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildDashboardActivityFeed,
+  buildDashboardHeroChart,
   buildDashboardReleaseHealthInsight,
   buildDashboardPerformanceSnapshot,
   getDashboardActivityActionLabel
@@ -169,6 +170,48 @@ describe("dashboard helpers", () => {
         sourceLabel: null,
         recordedAt: null
       }
+    ]);
+  });
+
+  it("builds the hero chart from the freshest primary metric series", () => {
+    const heroChart = buildDashboardHeroChart([
+      {
+        source: "SPOTIFY",
+        metricName: "STREAMS",
+        metricValue: 12000,
+        recordedAt: new Date("2026-03-01T12:00:00Z")
+      },
+      {
+        source: "SPOTIFY",
+        metricName: "STREAMS",
+        metricValue: 14800,
+        recordedAt: new Date("2026-03-08T12:00:00Z")
+      },
+      {
+        source: "SPOTIFY",
+        metricName: "STREAMS",
+        metricValue: 20533,
+        recordedAt: new Date("2026-03-15T12:00:00Z")
+      },
+      {
+        source: "INSTAGRAM",
+        metricName: "FOLLOWERS",
+        metricValue: 8200,
+        recordedAt: new Date("2026-03-14T12:00:00Z")
+      }
+    ]);
+
+    expect(heroChart).toMatchObject({
+      label: "Streams",
+      metricName: "STREAMS",
+      sourceLabel: "Spotify",
+      latestValue: 20533,
+      change: 38.7
+    });
+    expect(heroChart.points).toEqual([
+      expect.objectContaining({ label: "Mar 1", value: 12000 }),
+      expect.objectContaining({ label: "Mar 8", value: 14800 }),
+      expect.objectContaining({ label: "Mar 15", value: 20533 })
     ]);
   });
 

@@ -91,7 +91,7 @@ export default async function ReleaseDetailPage({
       }
     >
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_380px]">
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
           <CardContent className="grid gap-6 p-6 lg:grid-cols-[220px_minmax(0,1fr)]">
             <div className="overflow-hidden rounded-[1.75rem] border border-border/70 bg-gradient-to-br from-primary/15 via-background to-background">
               {release.coverArtUrl ? (
@@ -130,26 +130,26 @@ export default async function ReleaseDetailPage({
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                     Release date
                   </p>
                   <p className="mt-2 font-medium">{formatDate(release.releaseDate)}</p>
                 </div>
-                <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                     Distributor
                   </p>
                   <p className="mt-2 font-medium">{release.distributor ?? "Not set"}</p>
                 </div>
-                <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                     Tracks
                   </p>
                   <p className="mt-2 font-medium">{release.tracks.length}</p>
                 </div>
-                <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                     Updated
                   </p>
                   <p className="mt-2 font-medium">{formatRelativeTime(release.updatedAt)}</p>
@@ -159,21 +159,21 @@ export default async function ReleaseDetailPage({
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Upcoming milestones</CardTitle>
-            <CardDescription>
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="text-4xl text-white">Upcoming milestones</CardTitle>
+            <CardDescription className="text-white/68">
               Timeline checkpoints pulled from the release date, linked campaigns, content,
               and upcoming release tasks.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
             {release.upcomingMilestones.length > 0 ? (
               <div className="space-y-3">
                 {release.upcomingMilestones.map((milestone) => (
                   <div
                     key={milestone.id}
-                    className="rounded-2xl border border-border/70 bg-background/45 p-4"
+                    className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="space-y-1">
@@ -217,18 +217,18 @@ export default async function ReleaseDetailPage({
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_420px]">
         <ReleaseForm mode="edit" releaseId={release.id} initialValues={formValues} />
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="flex items-center gap-2 text-4xl text-white">
               <PencilLine className="size-4 text-primary" />
               Release notes
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/68">
               Keep the metadata accurate here so linked planning records have a dependable
               source of truth.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm leading-6 text-muted-foreground">
+          <CardContent className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))] text-sm leading-6 text-muted-foreground">
             <p>
               The release detail page is designed to keep planning and execution close to the
               catalog record itself. Update metadata here, then manage tracks and linked
@@ -245,23 +245,23 @@ export default async function ReleaseDetailPage({
       <ReleaseTracksManager releaseId={release.id} tracks={release.tracks} />
 
       <section className="grid gap-6 xl:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="flex items-center gap-2 text-4xl text-white">
               <Megaphone className="size-4 text-primary" />
               Linked campaigns
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/68">
               Campaigns already connected to this release, ordered by start date.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
             {release.campaigns.length > 0 ? (
               <div className="space-y-3">
                 {release.campaigns.map((campaign) => (
                   <div
                     key={campaign.id}
-                    className="rounded-2xl border border-border/70 bg-background/45 p-4"
+                    className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4"
                   >
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="space-y-1">
@@ -304,17 +304,17 @@ export default async function ReleaseDetailPage({
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="flex items-center gap-2 text-4xl text-white">
               <Package2 className="size-4 text-primary" />
               Related content items
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/68">
               Scheduled or published content connected to this release across channels.
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))] p-0">
             {release.contentItems.length > 0 ? (
               <Table>
                 <TableHeader>

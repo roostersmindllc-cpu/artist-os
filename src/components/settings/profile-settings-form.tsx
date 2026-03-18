@@ -57,18 +57,20 @@ export function ProfileSettingsForm({
   });
 
   return (
-    <Card className="border-border/70 bg-card/90 shadow-sm">
-      <CardHeader>
-        <CardTitle>Profile settings</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">Profile settings</CardTitle>
+        <CardDescription className="text-white/68">
           Update the core account details used across authentication and the app
           shell.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form className="space-y-4" onSubmit={onSubmit}>
+      <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
+        <form className="space-y-5" onSubmit={onSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="settings-name">Name</Label>
+            <Label htmlFor="settings-name" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Name
+            </Label>
             <Input
               id="settings-name"
               autoComplete="name"
@@ -80,7 +82,9 @@ export function ProfileSettingsForm({
             <FieldError message={form.formState.errors.name?.message} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="settings-email">Email</Label>
+            <Label htmlFor="settings-email" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Email
+            </Label>
             <Input
               id="settings-email"
               type="email"
@@ -94,7 +98,9 @@ export function ProfileSettingsForm({
             <FieldError message={form.formState.errors.email?.message} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="settings-image">Avatar image URL</Label>
+            <Label htmlFor="settings-image" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Avatar image URL
+            </Label>
             <Input
               id="settings-image"
               placeholder="https://example.com/avatar.jpg"
@@ -106,7 +112,7 @@ export function ProfileSettingsForm({
             <FieldError message={form.formState.errors.image?.message} />
           </div>
           <Button
-            className="w-full md:w-auto"
+            className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95 md:w-auto md:px-6"
             type="submit"
             disabled={isPending}
           >

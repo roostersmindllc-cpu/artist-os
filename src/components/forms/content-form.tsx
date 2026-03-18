@@ -123,9 +123,11 @@ export function ContentForm({
   });
 
   const formContent = (
-    <form className="space-y-4" onSubmit={onSubmit}>
+    <form className="space-y-5" onSubmit={onSubmit}>
       <div className="space-y-2">
-        <Label htmlFor="content-title">Title</Label>
+        <Label htmlFor="content-title" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Title
+        </Label>
         <Input
           id="content-title"
           placeholder="Studio teaser reel"
@@ -138,7 +140,9 @@ export function ContentForm({
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="content-platform">Platform</Label>
+          <Label htmlFor="content-platform" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Platform
+          </Label>
           <Select id="content-platform" {...form.register("platform")}>
             {contentPlatformValues.map((value) => (
               <option key={value} value={value}>
@@ -152,7 +156,9 @@ export function ContentForm({
           <FieldError message={form.formState.errors.platform?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="content-format">Format</Label>
+          <Label htmlFor="content-format" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Format
+          </Label>
           <Select id="content-format" {...form.register("format")}>
             {contentFormatValues.map((value) => (
               <option key={value} value={value}>
@@ -168,7 +174,9 @@ export function ContentForm({
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="content-due-date">Due date</Label>
+          <Label htmlFor="content-due-date" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Due date
+          </Label>
           <Input
             id="content-due-date"
             type="date"
@@ -178,7 +186,9 @@ export function ContentForm({
           <FieldError message={form.formState.errors.dueDate?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="content-published-at">Published date</Label>
+          <Label htmlFor="content-published-at" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Published date
+          </Label>
           <Input
             id="content-published-at"
             type="date"
@@ -190,7 +200,9 @@ export function ContentForm({
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="content-status">Status</Label>
+          <Label htmlFor="content-status" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Status
+          </Label>
           <Select id="content-status" {...form.register("status")}>
             {contentStatusValues.map((value) => (
               <option key={value} value={value}>
@@ -204,7 +216,9 @@ export function ContentForm({
           <FieldError message={form.formState.errors.status?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="content-asset-url">Asset URL</Label>
+          <Label htmlFor="content-asset-url" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Asset URL
+          </Label>
           <Input
             id="content-asset-url"
             placeholder="https://assets.example.com/studio-teaser.mp4"
@@ -218,7 +232,9 @@ export function ContentForm({
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="content-campaign">Linked campaign</Label>
+          <Label htmlFor="content-campaign" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Linked campaign
+          </Label>
           <Select id="content-campaign" {...form.register("campaignId")}>
             <option value="">No linked campaign</option>
             {options.campaigns.map((campaign) => (
@@ -233,7 +249,9 @@ export function ContentForm({
           <FieldError message={form.formState.errors.campaignId?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="content-release">Linked release</Label>
+          <Label htmlFor="content-release" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Linked release
+          </Label>
           <Select id="content-release" {...form.register("releaseId")}>
             <option value="">No linked release</option>
             {options.releases.map((release) => (
@@ -250,7 +268,9 @@ export function ContentForm({
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="content-caption">Caption</Label>
+        <Label htmlFor="content-caption" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Caption
+        </Label>
         <Textarea
           id="content-caption"
           rows={4}
@@ -266,7 +286,11 @@ export function ContentForm({
         description="Use a hosted asset URL for the MVP. File uploads are intentionally not wired yet."
         icon={ImagePlus}
       />
-      <Button className="w-full" type="submit" disabled={isPending}>
+      <Button
+        className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95"
+        type="submit"
+        disabled={isPending}
+      >
         {isPending ? (
           <LoaderCircle className="size-4 animate-spin" />
         ) : mode === "edit" ? (
@@ -288,16 +312,20 @@ export function ContentForm({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{mode === "edit" ? "Edit content item" : "Add content item"}</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">
+          {mode === "edit" ? "Edit content item" : "Add content item"}
+        </CardTitle>
+        <CardDescription className="text-white/68">
           {mode === "edit"
             ? "Update publishing details, linked campaign context, and asset metadata without leaving the content workspace."
             : "Capture platform, format, timing, and linked context for each marketing asset in the planner."}
         </CardDescription>
       </CardHeader>
-      <CardContent>{formContent}</CardContent>
+      <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
+        {formContent}
+      </CardContent>
     </Card>
   );
 }

@@ -112,7 +112,7 @@ export function ReleaseForm({
   });
 
   const formContent = (
-    <form className="space-y-4" onSubmit={onSubmit}>
+    <form className="space-y-5" onSubmit={onSubmit}>
       {mode === "create" ? (
         <FormCallout
           title="Starter automation included"
@@ -121,7 +121,9 @@ export function ReleaseForm({
         />
       ) : null}
       <div className="space-y-2">
-        <Label htmlFor="release-title">Title</Label>
+        <Label htmlFor="release-title" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Title
+        </Label>
         <Input
           id="release-title"
           placeholder="Neon Skyline"
@@ -134,7 +136,9 @@ export function ReleaseForm({
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="release-type">Release type</Label>
+          <Label htmlFor="release-type" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Release type
+          </Label>
           <Select id="release-type" {...form.register("type")}>
             {releaseTypeValues.map((value) => (
               <option key={value} value={value}>
@@ -148,7 +152,9 @@ export function ReleaseForm({
           <FieldError message={form.formState.errors.type?.message} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="release-status">Status</Label>
+          <Label htmlFor="release-status" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Status
+          </Label>
           <Select id="release-status" {...form.register("status")}>
             {releaseStatusValues.map((value) => (
               <option key={value} value={value}>
@@ -163,7 +169,9 @@ export function ReleaseForm({
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="release-date">Target release date</Label>
+        <Label htmlFor="release-date" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Target release date
+        </Label>
         <Input
           id="release-date"
           type="date"
@@ -175,7 +183,9 @@ export function ReleaseForm({
         <FieldError message={form.formState.errors.releaseDate?.message} />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="release-distributor">Distributor</Label>
+        <Label htmlFor="release-distributor" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Distributor
+        </Label>
         <Input
           id="release-distributor"
           placeholder="DistroKid"
@@ -187,7 +197,9 @@ export function ReleaseForm({
         <FieldError message={form.formState.errors.distributor?.message} />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="release-cover-art">Cover art URL</Label>
+        <Label htmlFor="release-cover-art" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Cover art URL
+        </Label>
         <Input
           id="release-cover-art"
           placeholder="https://images.example.com/neon-skyline.jpg"
@@ -204,7 +216,9 @@ export function ReleaseForm({
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="release-description">Description</Label>
+        <Label htmlFor="release-description" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Description
+        </Label>
         <Textarea
           id="release-description"
           rows={4}
@@ -215,7 +229,11 @@ export function ReleaseForm({
         </FieldHint>
         <FieldError message={form.formState.errors.description?.message} />
       </div>
-      <Button className="w-full" type="submit" disabled={isPending}>
+      <Button
+        className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95"
+        type="submit"
+        disabled={isPending}
+      >
         {isPending ? (
           <LoaderCircle className="size-4 animate-spin" />
         ) : mode === "edit" ? (
@@ -237,16 +255,20 @@ export function ReleaseForm({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{mode === "edit" ? "Edit release" : "Add release"}</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">
+          {mode === "edit" ? "Edit release" : "Add release"}
+        </CardTitle>
+        <CardDescription className="text-white/68">
           {mode === "edit"
             ? "Update release metadata, timing, and positioning without leaving the detail page."
             : "Create a release record with enough metadata to support planning, delivery, and future campaign linking."}
         </CardDescription>
       </CardHeader>
-      <CardContent>{formContent}</CardContent>
+      <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
+        {formContent}
+      </CardContent>
     </Card>
   );
 }

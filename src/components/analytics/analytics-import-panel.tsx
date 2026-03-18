@@ -92,18 +92,20 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
   };
 
   return (
-    <Card className="border-border/70 bg-card/90 shadow-sm">
-      <CardHeader>
-        <CardTitle>CSV import</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">CSV import</CardTitle>
+        <CardDescription className="text-white/68">
           Upload CSV exports from Spotify for Artists, YouTube, or TikTok, confirm
           the column mapping, preview normalized rows, and import only when validation
           is clean. Imported rows automatically refresh the charts.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-5">
+      <CardContent className="space-y-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
         <div className="space-y-2">
-          <Label htmlFor="analytics-csv-file">CSV file</Label>
+          <Label htmlFor="analytics-csv-file" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            CSV file
+          </Label>
           <Input
             id="analytics-csv-file"
             type="file"
@@ -122,7 +124,10 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {metricImportColumnTargets.map((target) => (
                 <div key={target} className="space-y-2">
-                  <Label htmlFor={`analytics-mapping-${target}`}>
+                  <Label
+                    htmlFor={`analytics-mapping-${target}`}
+                    className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+                  >
                     {metricImportColumnLabels[target]}
                   </Label>
                   <Select
@@ -150,24 +155,24 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="rounded-[1.7rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Total rows
                 </p>
                 <p className="mt-2 font-heading text-3xl font-semibold">
                   {preview.totalRows}
                 </p>
               </div>
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="rounded-[1.7rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Valid rows
                 </p>
                 <p className="mt-2 font-heading text-3xl font-semibold text-emerald-500">
                   {preview.validRowCount}
                 </p>
               </div>
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="rounded-[1.7rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Invalid rows
                 </p>
                 <p className="mt-2 font-heading text-3xl font-semibold text-amber-500">
@@ -176,7 +181,7 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
               </div>
             </div>
 
-            <div className="space-y-3 rounded-2xl border border-border/70 bg-background/35 p-4">
+            <div className="space-y-3 rounded-[1.7rem] border-2 border-black/12 bg-white p-4">
               <div className="flex items-center gap-2">
                 <FileSpreadsheet className="size-4 text-primary" />
                 <p className="font-medium">Preview</p>
@@ -186,7 +191,7 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
                   {preview.previewRows.slice(0, 5).map((row) => (
                     <div
                       key={`${row.rowNumber}-${row.recordedAt}`}
-                      className="rounded-xl border border-border/60 bg-background/70 p-3 text-sm"
+                      className="rounded-[1.25rem] border border-black/10 bg-background/75 p-3 text-sm"
                     >
                       <p className="font-medium">
                         Row {row.rowNumber}: {row.sourceLabel} {row.metricLabel.toLowerCase()}
@@ -206,7 +211,7 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
             </div>
 
             {preview.errors.length > 0 ? (
-              <div className="space-y-3 rounded-2xl border border-amber-500/40 bg-amber-500/5 p-4">
+              <div className="space-y-3 rounded-[1.7rem] border border-amber-500/40 bg-amber-500/8 p-4">
                 <p className="font-medium text-amber-600">Import issues</p>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {preview.errors.slice(0, 6).map((error) => (
@@ -226,7 +231,7 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
 
             <Button
               type="button"
-              className="w-full"
+              className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95"
               disabled={isPending || preview.validRowCount === 0 || preview.invalidRowCount > 0}
               onClick={handleImport}
             >
@@ -235,17 +240,17 @@ export function AnalyticsImportPanel({ template }: AnalyticsImportPanelProps) {
             </Button>
           </>
         ) : (
-          <div className="rounded-2xl border border-dashed border-border/70 bg-background/35 p-5 text-sm leading-6 text-muted-foreground">
+          <div className="rounded-[1.7rem] border border-dashed border-black/12 bg-background/55 p-5 text-sm leading-6 text-muted-foreground">
             Upload a CSV export to unlock mapping, preview, import, and automatic chart
             updates.
           </div>
         )}
 
-        <div className="rounded-2xl border border-border/70 bg-background/35 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+        <div className="rounded-[1.7rem] border-2 border-black/12 bg-white p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
             CSV template
           </p>
-          <pre className="mt-3 overflow-x-auto rounded-xl bg-background/70 p-3 text-xs leading-6 text-muted-foreground">
+          <pre className="mt-3 overflow-x-auto rounded-[1.25rem] bg-background/80 p-3 text-xs leading-6 text-muted-foreground">
             {template}
           </pre>
         </div>

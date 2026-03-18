@@ -21,7 +21,7 @@ export function PageContainer({
   className
 }: PageContainerProps) {
   return (
-    <section className={cn("mx-auto w-full max-w-[1360px] space-y-8", className)}>
+    <section className={cn("mx-auto w-full max-w-[1360px] space-y-6 sm:space-y-8", className)}>
       <SectionHeader
         title={title}
         description={description}

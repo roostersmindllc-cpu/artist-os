@@ -98,6 +98,15 @@ export async function getNextUpcomingReleaseByArtistProfileId(
       status: true,
       releaseDate: true,
       distributor: true,
+      tracks: {
+        select: {
+          id: true,
+          title: true,
+          status: true
+        },
+        orderBy: [{ createdAt: "asc" }],
+        take: 3
+      },
       _count: {
         select: {
           tracks: true,

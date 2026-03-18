@@ -46,6 +46,20 @@ type OnboardingFormProps = {
 };
 
 const audienceSizePresets = ["500", "2500", "10000", "50000"] as const;
+const setupLaneCards = [
+  {
+    title: "Organize",
+    description: "Set the artist profile, release runway, and core channels."
+  },
+  {
+    title: "Track",
+    description: "Use audience size and platforms to shape the starter analytics workflow."
+  },
+  {
+    title: "Launch",
+    description: "Seed the first campaign, content week, and tasks before the dashboard opens."
+  }
+] as const;
 
 function formatSelectedLabels(values: string[], labels: Record<string, string>) {
   if (values.length === 0) {
@@ -130,11 +144,13 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
 
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_380px]">
-      <Card className="w-full border-border/70 bg-card/85 shadow-sm">
-        <CardHeader className="space-y-4">
+      <Card className="w-full rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_16px_40px_rgba(0,0,0,0.08)]">
+        <CardHeader className="space-y-4 border-b border-black/10 bg-[linear-gradient(180deg,rgba(28,216,242,0.08),rgba(255,255,255,0))] px-6 py-6">
           <div className="space-y-1">
-            <CardTitle className="text-2xl">Set up your artist workspace</CardTitle>
-            <CardDescription>
+            <CardTitle className="font-heading text-5xl font-semibold leading-none">
+              Profile setup
+            </CardTitle>
+            <CardDescription className="max-w-3xl text-base leading-7 text-muted-foreground">
               Give Artist OS five key signals and it will build your first release,
               campaign, content week, and tasks before you ever see the dashboard.
             </CardDescription>
@@ -145,16 +161,45 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
             icon={Sparkles}
           />
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-8 px-6 py-6">
+          <div className="space-y-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
+                Choose your format
+              </p>
+              <h3 className="mt-2 font-heading text-3xl font-semibold">How Artist.OS will set the board</h3>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {setupLaneCards.map((card) => (
+                <div
+                  key={card.title}
+                  className="rounded-[1.6rem] border border-black/12 bg-[linear-gradient(180deg,rgba(190,89,255,0.86),rgba(162,73,224,0.96))] p-4 text-white"
+                >
+                  <p className="font-heading text-3xl font-semibold">{card.title}</p>
+                  <p className="mt-3 text-sm leading-6 text-white/82">{card.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <Label htmlFor="artistName">Artist name</Label>
-              <Input id="artistName" autoComplete="organization" {...form.register("artistName")} />
+              <Label htmlFor="artistName" className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Artist name
+              </Label>
+              <Input
+                id="artistName"
+                autoComplete="organization"
+                className="h-12 rounded-2xl border-black/12 bg-white shadow-none"
+                {...form.register("artistName")}
+              />
               <FieldError message={form.formState.errors.artistName?.message} />
             </div>
 
             <div className="space-y-2">
-              <Label>Social platforms</Label>
+              <Label className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Social platforms
+              </Label>
               <SelectableChipGroup
                 ariaLabel="Social platforms"
                 options={socialPlatformValues.map((value) => ({
@@ -182,10 +227,13 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
 
             <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
               <div className="space-y-2">
-                <Label htmlFor="nextReleaseDate">Next release date</Label>
+                <Label htmlFor="nextReleaseDate" className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Next release date
+                </Label>
                 <Input
                   id="nextReleaseDate"
                   type="date"
+                  className="h-12 rounded-2xl border-black/12 bg-white shadow-none"
                   {...form.register("nextReleaseDate")}
                 />
                 <FieldHint>
@@ -194,11 +242,14 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
                 <FieldError message={form.formState.errors.nextReleaseDate?.message} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="audienceSize">Audience size</Label>
+                <Label htmlFor="audienceSize" className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Audience size
+                </Label>
                 <Input
                   id="audienceSize"
                   inputMode="numeric"
                   placeholder="5000"
+                  className="h-12 rounded-2xl border-black/12 bg-white shadow-none"
                   {...form.register("audienceSize")}
                 />
                 <div className="flex flex-wrap gap-2">
@@ -224,7 +275,9 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
             </div>
 
             <div className="space-y-2">
-              <Label>Platforms used</Label>
+              <Label className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Platforms used
+              </Label>
               <SelectableChipGroup
                 ariaLabel="Platforms used"
                 options={onboardingPlatformValues.map((value) => ({
@@ -251,26 +304,40 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
             </div>
 
             <FieldError message={formError ?? undefined} />
-            <Button className="w-full md:w-auto" type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Building workspace..." : "Create my workspace"}
-            </Button>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Button
+                className="h-14 min-w-[12rem] rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] px-8 text-base font-semibold text-white shadow-none"
+                type="submit"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? "Building workspace..." : "Create profile"}
+              </Button>
+              <Button
+                variant="outline"
+                className="h-14 min-w-[10rem] rounded-full border-black/14 bg-white px-8 text-base shadow-none"
+                type="button"
+                onClick={() => router.back()}
+              >
+                Back
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
 
-      <Card className="border-border/70 bg-card/88 shadow-sm">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_16px_40px_rgba(0,0,0,0.08)]">
+        <CardHeader className="border-b border-black/10 bg-black text-white">
+          <CardTitle className="flex items-center gap-2 font-heading text-4xl font-semibold">
             <LayoutDashboard className="size-4 text-primary" />
             What You&apos;ll Land In
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-white/72">
             A seeded workspace built from your answers, not an empty shell.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+        <CardContent className="space-y-4 px-5 py-5">
+          <div className="rounded-[1.6rem] border border-black/12 bg-background p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
               Social platforms
             </p>
             <p className="mt-2 text-sm leading-6 text-foreground">
@@ -278,8 +345,8 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
             </p>
           </div>
 
-          <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <div className="rounded-[1.6rem] border border-black/12 bg-background p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
               Platforms used
             </p>
             <p className="mt-2 text-sm leading-6 text-foreground">
@@ -289,7 +356,7 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
 
           {preview ? (
             <>
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
+              <div className="rounded-[1.6rem] border border-black/12 bg-background p-4">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary">
                     <Disc3 className="size-4" />
@@ -303,7 +370,7 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
+              <div className="rounded-[1.6rem] border border-black/12 bg-background p-4">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary">
                     <RadioTower className="size-4" />
@@ -317,7 +384,7 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
+              <div className="rounded-[1.6rem] border border-black/12 bg-background p-4">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary">
                     <CalendarClock className="size-4" />
@@ -332,8 +399,8 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="rounded-[1.6rem] border border-black/12 bg-background p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Seeded tasks
                 </p>
                 <div className="mt-3 space-y-2">
@@ -349,7 +416,7 @@ export function OnboardingForm({ defaultArtistName = "" }: OnboardingFormProps) 
               </div>
             </>
           ) : (
-            <div className="rounded-2xl border border-dashed border-border/70 bg-background/35 p-5 text-sm leading-6 text-muted-foreground">
+            <div className="rounded-[1.6rem] border border-dashed border-black/16 bg-background p-5 text-sm leading-6 text-muted-foreground">
               Pick your platforms, audience size, and release date to preview the seeded workspace.
             </div>
           )}

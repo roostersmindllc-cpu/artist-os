@@ -40,17 +40,17 @@ export function ContentPlannerToolbar({
   };
 
   return (
-    <Card className="border-border/70 bg-card/85">
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
       <CardContent className="flex flex-col gap-4 p-5 lg:flex-row lg:items-center lg:justify-between">
         <div className="space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">
             {range.subheading}
           </p>
-          <h2 className="font-heading text-2xl font-semibold">{range.heading}</h2>
+          <h2 className="font-heading text-4xl font-semibold leading-none">{range.heading}</h2>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-          <div className="flex rounded-2xl border border-border/70 bg-background/60 p-1">
+          <div className="flex rounded-[1.4rem] border-2 border-black/12 bg-white p-1">
             {viewItems.map((item) => {
               const Icon = item.icon;
               const isActive = view === item.value;
@@ -64,8 +64,8 @@ export function ContentPlannerToolbar({
                   })}
                   className={cn(
                     buttonVariants({ variant: "ghost", size: "sm" }),
-                    "rounded-xl",
-                    isActive ? "bg-primary/10 text-primary" : ""
+                    "rounded-xl px-4",
+                    isActive ? "bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:bg-[linear-gradient(180deg,#b360ff,#9a42de)] hover:text-white" : "text-muted-foreground"
                   )}
                 >
                   <Icon className="size-4" />
@@ -82,7 +82,7 @@ export function ContentPlannerToolbar({
                   getContentPlannerShiftedDate(view, range.anchorDate, "previous")
                 )
               })}
-              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "rounded-xl")}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "rounded-full border-black/12 bg-white px-4")}
             >
               <ChevronLeft className="size-4" />
               Prev
@@ -91,7 +91,7 @@ export function ContentPlannerToolbar({
               href={buildContentPlannerHref(baseParams, {
                 date: formatPlannerDateParam(new Date())
               })}
-              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "rounded-xl")}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "rounded-full border-black/12 bg-white px-4")}
             >
               Today
             </Link>
@@ -101,7 +101,7 @@ export function ContentPlannerToolbar({
                   getContentPlannerShiftedDate(view, range.anchorDate, "next")
                 )
               })}
-              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "rounded-xl")}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "rounded-full border-black/12 bg-white px-4")}
             >
               Next
               <ChevronRight className="size-4" />

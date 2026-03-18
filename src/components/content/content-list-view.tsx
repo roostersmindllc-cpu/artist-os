@@ -42,7 +42,9 @@ export function ContentListView({ items }: ContentListViewProps) {
             {items.map((item) => (
               <TableRow key={item.id}>
                 <TableCell className="font-medium">
-                  <Link href={item.href}>{item.title}</Link>
+                  <Link href={item.href} className="transition-colors hover:text-primary">
+                    {item.title}
+                  </Link>
                 </TableCell>
                 <TableCell>{contentPlatformLabels[item.platform]}</TableCell>
                 <TableCell>{contentFormatLabels[item.format]}</TableCell>

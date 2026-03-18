@@ -11,6 +11,7 @@ import {
 } from "@/db/queries/dashboard";
 import {
   buildDashboardActivityFeed,
+  buildDashboardHeroChart,
   buildDashboardReleaseHealthInsight,
   buildDashboardPerformanceSnapshot
 } from "@/services/dashboard-helpers";
@@ -52,6 +53,7 @@ export async function getDashboardOverview(userId: string) {
     tasksDueToday,
     campaignsRunningNow,
     releasesWithin30Days,
+    heroChart: buildDashboardHeroChart(metricSnapshots),
     performanceSnapshot: buildDashboardPerformanceSnapshot(metricSnapshots),
     recentActivity: buildDashboardActivityFeed(
       [

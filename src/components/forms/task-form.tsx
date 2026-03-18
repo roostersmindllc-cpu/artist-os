@@ -67,18 +67,20 @@ export function TaskForm() {
   });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Add task</CardTitle>
-        <CardDescription>
+    <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+      <CardHeader className="border-b border-black/12 bg-black text-white">
+        <CardTitle className="text-4xl text-white">Add task</CardTitle>
+        <CardDescription className="text-white/68">
           Operational tasks can optionally point at a release, campaign, content
           item, or fan.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form id="task-composer" className="space-y-4" onSubmit={onSubmit}>
+      <CardContent className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
+        <form id="task-composer" className="space-y-5" onSubmit={onSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="task-title">Title</Label>
+            <Label htmlFor="task-title" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Title
+            </Label>
             <Input
               id="task-title"
               placeholder="Finalize distributor metadata"
@@ -90,7 +92,9 @@ export function TaskForm() {
             <FieldError message={form.formState.errors.title?.message} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="task-description">Description</Label>
+            <Label htmlFor="task-description" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Description
+            </Label>
             <Textarea
               id="task-description"
               rows={4}
@@ -104,7 +108,9 @@ export function TaskForm() {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="task-status">Status</Label>
+              <Label htmlFor="task-status" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Status
+              </Label>
               <Select id="task-status" {...form.register("status")}>
                 {taskStatusValues.map((value) => (
                   <option key={value} value={value}>
@@ -119,7 +125,9 @@ export function TaskForm() {
               <FieldError message={form.formState.errors.status?.message} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="task-priority">Priority</Label>
+              <Label htmlFor="task-priority" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Priority
+              </Label>
               <Select id="task-priority" {...form.register("priority")}>
                 {taskPriorityValues.map((value) => (
                   <option key={value} value={value}>
@@ -136,7 +144,9 @@ export function TaskForm() {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="task-due-date">Due date</Label>
+              <Label htmlFor="task-due-date" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Due date
+              </Label>
               <Input
                 id="task-due-date"
                 type="date"
@@ -149,7 +159,9 @@ export function TaskForm() {
               <FieldError message={form.formState.errors.dueDate?.message} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="task-related-type">Related type</Label>
+              <Label htmlFor="task-related-type" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Related type
+              </Label>
               <Select id="task-related-type" {...form.register("relatedType")}>
                 <option value="">No link</option>
                 {taskRelatedTypeValues.map((value) => (
@@ -168,7 +180,9 @@ export function TaskForm() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="task-related-id">Related record ID</Label>
+            <Label htmlFor="task-related-id" className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Related record ID
+            </Label>
             <Input
               id="task-related-id"
               placeholder="Paste the linked record ID if you want a hard reference"
@@ -179,7 +193,11 @@ export function TaskForm() {
             </FieldHint>
             <FieldError message={form.formState.errors.relatedId?.message} />
           </div>
-          <Button className="w-full" type="submit" disabled={isPending}>
+          <Button
+            className="h-14 w-full rounded-full bg-[linear-gradient(180deg,#b360ff,#9a42de)] text-white hover:opacity-95"
+            type="submit"
+            disabled={isPending}
+          >
             {isPending ? (
               <LoaderCircle className="size-4 animate-spin" />
             ) : (

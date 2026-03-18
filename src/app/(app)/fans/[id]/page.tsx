@@ -67,7 +67,7 @@ export default async function FanDetailPage({ params }: FanDetailPageProps) {
       }
     >
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_360px]">
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
           <CardContent className="space-y-6 p-6">
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant={getFanEngagementVariant(fan.engagementScore)}>
@@ -77,22 +77,22 @@ export default async function FanDetailPage({ params }: FanDetailPageProps) {
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
-              <div className="border-border/70 bg-background/45 rounded-2xl border p-4">
-                <p className="text-muted-foreground text-xs font-semibold tracking-[0.2em] uppercase">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Email
                 </p>
                 <p className="mt-2 font-medium break-all">
                   {fan.email ?? "Not set"}
                 </p>
               </div>
-              <div className="border-border/70 bg-background/45 rounded-2xl border p-4">
-                <p className="text-muted-foreground text-xs font-semibold tracking-[0.2em] uppercase">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Handle
                 </p>
                 <p className="mt-2 font-medium">{fan.handle ?? "Not set"}</p>
               </div>
-              <div className="border-border/70 bg-background/45 rounded-2xl border p-4">
-                <p className="text-muted-foreground text-xs font-semibold tracking-[0.2em] uppercase">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Updated
                 </p>
                 <p className="mt-2 font-medium">
@@ -120,8 +120,8 @@ export default async function FanDetailPage({ params }: FanDetailPageProps) {
               )}
             </div>
 
-            <div className="border-border/70 bg-background/45 rounded-2xl border p-4">
-              <p className="text-muted-foreground text-xs font-semibold tracking-[0.2em] uppercase">
+            <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                 Relationship notes
               </p>
               <p className="text-muted-foreground mt-3 text-sm leading-6">
@@ -132,11 +132,11 @@ export default async function FanDetailPage({ params }: FanDetailPageProps) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>CRM snapshot</CardTitle>
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="text-4xl text-white">CRM snapshot</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
             <StatCard
               label="Engagement score"
               value={String(fan.engagementScore)}
@@ -167,11 +167,11 @@ export default async function FanDetailPage({ params }: FanDetailPageProps) {
 
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_420px]">
         <FanForm mode="edit" fanId={fan.id} initialValues={formValues} />
-        <Card>
-          <CardHeader>
-            <CardTitle>Import-ready CRM</CardTitle>
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="text-4xl text-white">Import-ready CRM</CardTitle>
           </CardHeader>
-          <CardContent className="text-muted-foreground space-y-4 text-sm leading-6">
+          <CardContent className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))] text-sm leading-6 text-muted-foreground">
             <p>
               The fan record is intentionally lightweight so a CSV import can
               land in the same typed normalization path without forcing the UI

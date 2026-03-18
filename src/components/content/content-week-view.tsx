@@ -24,13 +24,16 @@ export function ContentWeekView({ items, range }: ContentWeekViewProps) {
             );
 
             return (
-              <Card key={day.toISOString()} className="overflow-hidden">
+              <Card
+                key={day.toISOString()}
+                className="overflow-hidden rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_14px_28px_rgba(0,0,0,0.06)]"
+              >
                 <CardContent className="space-y-4 p-4">
-                  <div className="space-y-1 border-b border-border/60 pb-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  <div className="space-y-1 border-b border-black/10 pb-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                       {format(day, "EEE")}
                     </p>
-                    <h3 className="font-heading text-xl font-semibold">
+                    <h3 className="font-heading text-3xl font-semibold leading-none">
                       {format(day, "MMM d")}
                     </h3>
                   </div>

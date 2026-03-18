@@ -76,7 +76,7 @@ export default async function ContentDetailPage({
       }
     >
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_360px]">
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
           <CardContent className="space-y-6 p-6">
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="outline">{contentPlatformLabels[contentItem.platform]}</Badge>
@@ -87,34 +87,34 @@ export default async function ContentDetailPage({
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Due date
                 </p>
                 <p className="mt-2 font-medium">{formatDate(contentItem.dueDate)}</p>
               </div>
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Published
                 </p>
                 <p className="mt-2 font-medium">{formatDate(contentItem.publishedAt)}</p>
               </div>
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Created
                 </p>
                 <p className="mt-2 font-medium">{formatDate(contentItem.createdAt)}</p>
               </div>
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                   Updated
                 </p>
                 <p className="mt-2 font-medium">{formatRelativeTime(contentItem.updatedAt)}</p>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
                 Caption
               </p>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
@@ -125,13 +125,13 @@ export default async function ContentDetailPage({
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Linked context</CardTitle>
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="text-4xl text-white">Linked context</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))]">
             {contentItem.campaign ? (
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
                 <div className="flex items-center gap-2">
                   <Megaphone className="size-4 text-primary" />
                   <p className="font-medium">Campaign</p>
@@ -169,7 +169,7 @@ export default async function ContentDetailPage({
             )}
 
             {contentItem.release ? (
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
                 <div className="flex items-center gap-2">
                   <Music4 className="size-4 text-primary" />
                   <p className="font-medium">Release</p>
@@ -205,7 +205,7 @@ export default async function ContentDetailPage({
             )}
 
             {contentItem.assetUrl ? (
-              <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
+              <div className="rounded-[1.6rem] border-2 border-black/12 bg-white p-4">
                 <div className="flex items-center gap-2">
                   <LinkIcon className="size-4 text-primary" />
                   <p className="font-medium">Asset link</p>
@@ -239,14 +239,14 @@ export default async function ContentDetailPage({
           initialValues={formValues}
           options={options}
         />
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <Card className="rounded-[2rem] border-2 border-black/12 bg-card shadow-[0_18px_36px_rgba(0,0,0,0.08)]">
+          <CardHeader className="border-b border-black/12 bg-black text-white">
+            <CardTitle className="flex items-center gap-2 text-4xl text-white">
               <CalendarDays className="size-4 text-primary" />
               Planning notes
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm leading-6 text-muted-foreground">
+          <CardContent className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,242,236,0.94))] text-sm leading-6 text-muted-foreground">
             <p>
               Content lives as a scheduling record first, which keeps the planner stable even
               before there is a full media library or social publishing integration.
